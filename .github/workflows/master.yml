@@ -111,7 +111,7 @@ jobs:
           tag: latest
           overwrite: true
   hdf5-win:
-    runs-on: windows-latest
+    runs-on: windows-2019
     steps:
       - name: Clone
         uses: actions/checkout@v2
