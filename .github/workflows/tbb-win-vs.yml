@@ -1,0 +1,29 @@
+name: tbb-win-vs
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+jobs:
+  tbb-win-vs:
+    runs-on: windows-2019
+    steps:
+      - name: Clone
+        uses: actions/checkout@v2
+      - name: Compile
+        run: |
+          C:/msys64/usr/bin/wget.exe https://github.com/oneapi-src/oneTBB/archive/refs/tags/v2021.4.0.zip
+          unzip v2021.4.0.zip
+          mkdir build && cd build
+          cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=D:/a/prebuilds/prebuilds/tbb-win-vs ../oneTBB-2021.4.0
+          cmake --build . --target INSTALL --config Release
+          cd ../tbb-win-vs
+          7z a ../tbb-win-vs.7z ./*
+      - name: Release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: tbb-win-vs.7z
+          asset_name: tbb-win-vs.7z
+          tag: latest
+          overwrite: true

@@ -1,0 +1,30 @@
+name: tbb-win-gcc
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+jobs:
+  tbb-win-gcc:
+    runs-on: windows-latest
+    steps:
+      - name: Clone
+        uses: actions/checkout@v2
+      - name: Compile
+        run: |
+          choco install mingw --version=10.3.0
+          C:/msys64/usr/bin/wget.exe https://github.com/oneapi-src/oneTBB/archive/refs/tags/v2021.4.0.zip
+          unzip v2021.4.0.zip
+          mkdir build && cd build
+          cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=D:/a/prebuilds/prebuilds/tbb-win-gcc ../oneTBB-2021.4.0
+          cmake --build . --target INSTALL --config Release
+          cd ../tbb-win-gcc
+          7z a ../tbb-win-gcc.7z ./*
+      - name: Release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: tbb-win-gcc.7z
+          asset_name: tbb-win-gcc.7z
+          tag: latest
+          overwrite: true

@@ -1,0 +1,27 @@
+name: tbb-macos
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+jobs:
+  tbb-macos:
+    runs-on: macos-10.15
+    steps:
+      - name: Compile
+        run: |
+          wget https://github.com/oneapi-src/oneTBB/archive/refs/tags/v2021.4.0.tar.gz
+          tar xf v2021.4.0.tar.gz && rm v2021.4.0.tar.gz
+          mkdir tbb-macos && mkdir build && cd build
+          cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../tbb-macos ../oneTBB-2021.4.0
+          make install -j4
+          cd ..
+          tar cvzf tbb-macos.tar.gz ./tbb-macos/*
+      - name: Release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: tbb-macos.tar.gz
+          asset_name: tbb-macos.tar.gz
+          tag: latest
+          overwrite: true

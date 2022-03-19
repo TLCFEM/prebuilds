@@ -1,0 +1,27 @@
+name: tbb-linux-1804
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+jobs:
+  tbb-linux-1804:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Compile
+        run: |
+          wget https://github.com/oneapi-src/oneTBB/archive/refs/tags/v2021.4.0.tar.gz
+          tar xf v2021.4.0.tar.gz && rm v2021.4.0.tar.gz
+          mkdir tbb-linux && mkdir build && cd build
+          cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../tbb-linux ../oneTBB-2021.4.0
+          make install -j4
+          cd ..
+          tar cvzf tbb-linux-ubuntu-18.04.tar.gz ./tbb-linux/*
+      - name: Release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: tbb-linux-ubuntu-18.04.tar.gz
+          asset_name: tbb-linux-ubuntu-18.04.tar.gz
+          tag: latest
+          overwrite: true

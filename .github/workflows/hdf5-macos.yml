@@ -1,0 +1,28 @@
+name: hdf5-macos
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+jobs:
+  hdf5-macos:
+    runs-on: macos-10.15
+    steps:
+      - name: Clone
+        uses: actions/checkout@v2
+      - name: Compile
+        run: |
+          export FC=gfortran-9
+          wget https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.12/hdf5-1.12.1/src/CMake-hdf5-1.12.1.tar.gz
+          tar xf CMake-hdf5-1.12.1.tar.gz
+          cd CMake-hdf5-1.12.1
+          sed -i '' 's/#set (ADD_BUILD_OPTIONS "${ADD_BUILD_OPTIONS} -DHDF5_ENABLE_Z_LIB_SUPPORT:BOOL=OFF")/set (ADD_BUILD_OPTIONS "${ADD_BUILD_OPTIONS} -DHDF5_ENABLE_Z_LIB_SUPPORT:BOOL=OFF")/g' HDF5options.cmake
+          ctest -S HDF5config.cmake,BUILD_GENERATOR=Unix -C Release -O hdf5.log
+      - name: Release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: CMake-hdf5-1.12.1/HDF5-1.12.1-Darwin.tar.gz
+          asset_name: HDF5-1.12.1-Darwin.tar.gz
+          tag: latest
+          overwrite: true
