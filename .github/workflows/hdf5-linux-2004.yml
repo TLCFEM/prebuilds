@@ -15,6 +15,7 @@ jobs:
           wget https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.12/hdf5-1.12.1/src/CMake-hdf5-1.12.1.tar.gz
           tar xf CMake-hdf5-1.12.1.tar.gz
           cd CMake-hdf5-1.12.1
+          export CC=gcc-10 && export CXX=g++-10 && export FC=gfortran-10
           ctest -S HDF5config.cmake,BUILD_GENERATOR=Unix -C Release -O hdf5.log
       - name: Release
         uses: svenstaro/upload-release-action@v2
