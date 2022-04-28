@@ -10,7 +10,6 @@ jobs:
     steps:
       - name: Compile
         run: |
-          export CC=gcc-10 && export CXX=g++-10 && export FC=gfortran-10
           wget https://github.com/oneapi-src/oneTBB/archive/refs/tags/v2021.5.0.tar.gz
           tar xf v2021.5.0.tar.gz && rm v2021.5.0.tar.gz
           mkdir tbb-macos && mkdir build && cd build
