@@ -16,7 +16,7 @@ jobs:
           wget https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.10/hdf5-1.10.6/src/hdf5-1.10.6.tar.gz
           tar xf hdf5-1.10.6.tar.gz && mkdir tmp && cd tmp
           cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../build ../hdf5-1.10.6
-          cmake --build . --target INSTALL --config Release
+          make install -j4
           cd ../build
           tar cvzf ../HDF5-1.10.6-Linux.tar.gz ./*
       - name: Release
