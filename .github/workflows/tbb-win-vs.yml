@@ -8,8 +8,6 @@ jobs:
   tbb-win-vs:
     runs-on: windows-2019
     steps:
-      - name: Clone
-        uses: actions/checkout@v2
       - name: Compile
         run: |
           C:/msys64/usr/bin/wget.exe https://github.com/oneapi-src/oneTBB/archive/refs/tags/v2021.5.0.zip
