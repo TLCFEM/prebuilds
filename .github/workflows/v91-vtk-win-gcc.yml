@@ -1,4 +1,4 @@
-name: v91-vtk-win
+name: v91-vtk-win-gcc
 on:
   push:
     branches: [master]
