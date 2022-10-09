@@ -1,0 +1,29 @@
+name: v92-vtk-linux-2204
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+jobs:
+  v92-vtk-linux-2204:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Compile
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install gcc gfortran g++ mesa-common-dev mesa-utils freeglut3-dev libglvnd-dev -y
+          wget https://www.vtk.org/files/release/9.2/VTK-9.2.2.tar.gz
+          tar xf VTK-9.2.2.tar.gz && rm VTK-9.2.2.tar.gz
+          mkdir VTK-build && cd VTK-build
+          cmake -DCMAKE_BUILD_TYPE=Release -DVTK_PYTHON_VERSON=3 -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=../VTK-out ../VTK-9.2.2
+          make install -j4
+          cd ../VTK-out
+          tar cvzf ../VTK-9.2.2-linux.tar.gz ./*
+      - name: Release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: VTK-9.2.2-linux.tar.gz
+          asset_name: VTK-9.2.2-linux.tar.gz
+          tag: latest
+          overwrite: true
