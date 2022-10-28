@@ -6,11 +6,10 @@ on:
     branches: [master]
 jobs:
   v315-openblas-linux:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Compile
         run: |
-          export CC=gcc-10 && export CXX=g++-10 && export FC=gfortran-10
           wget https://github.com/xianyi/OpenBLAS/releases/download/v0.3.15/OpenBLAS-0.3.15.tar.gz
           tar xf OpenBLAS-0.3.15.tar.gz && rm OpenBLAS-0.3.15.tar.gz && cd OpenBLAS-0.3.15
           sed -i 's/# DYNAMIC_ARCH = 1/DYNAMIC_ARCH = 1/g' Makefile.rule
