@@ -9,7 +9,7 @@ jobs:
     runs-on: macos-11
     steps:
       - name: Clone
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Compile
         run: |
           export CC=gcc-10 && export CXX=g++-10 && export FC=gfortran-10
@@ -19,7 +19,7 @@ jobs:
           sed -i '' 's/#set (ADD_BUILD_OPTIONS "${ADD_BUILD_OPTIONS} -DHDF5_ENABLE_Z_LIB_SUPPORT:BOOL=OFF")/set (ADD_BUILD_OPTIONS "${ADD_BUILD_OPTIONS} -DHDF5_ENABLE_Z_LIB_SUPPORT:BOOL=OFF")/g' HDF5options.cmake
           ctest -S HDF5config.cmake,BUILD_GENERATOR=Unix -C Release -O hdf5.log
       - name: Release
-        uses: svenstaro/upload-release-action@v2
+        uses: svenstaro/upload-release-action@v3
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: CMake-hdf5-1.12.1/HDF5-1.12.1-Darwin.tar.gz

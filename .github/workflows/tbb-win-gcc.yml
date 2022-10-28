@@ -19,7 +19,7 @@ jobs:
           cd ../tbb-win-gcc
           7z a ../tbb-win-gcc.7z ./*
       - name: Release
-        uses: svenstaro/upload-release-action@v2
+        uses: svenstaro/upload-release-action@v3
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: tbb-win-gcc.7z
