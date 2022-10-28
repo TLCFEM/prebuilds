@@ -15,7 +15,7 @@ jobs:
           wget https://www.vtk.org/files/release/9.2/VTK-9.2.2.tar.gz
           tar xf VTK-9.2.2.tar.gz && rm VTK-9.2.2.tar.gz
           mkdir VTK-build && cd VTK-build
-          cmake -DCMAKE_BUILD_TYPE=Release -DVTK_PYTHON_VERSON=3 -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=../VTK-out ../VTK-9.2.2
+          cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=../VTK-out ../VTK-9.2.2
           make install -j4
           cd ../VTK-out
           tar cvzf ../VTK-9.2.2-macos.tar.gz ./*

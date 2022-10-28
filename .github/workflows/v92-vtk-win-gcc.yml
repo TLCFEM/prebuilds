@@ -14,7 +14,7 @@ jobs:
           C:/msys64/usr/bin/wget.exe https://www.vtk.org/files/release/9.2/VTK-9.2.2.tar.gz
           tar xf VTK-9.2.2.tar.gz && del VTK-9.2.2.tar.gz
           mkdir VTK-build && mkdir VTK-out && cd VTK-build
-          cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release -DVTK_PYTHON_VERSON=3 -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=D:/a/prebuilds/prebuilds/VTK-out ../VTK-9.2.2
+          cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS=-fcommon -DCMAKE_C_FLAGS=-fcommon -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=D:/a/prebuilds/prebuilds/VTK-out ../VTK-9.2.2
           cmake --build . --target INSTALL --config Release --parallel 4
           cd ../VTK-out
           7z a ../VTK-9.2.2-win-gcc.7z ./*
