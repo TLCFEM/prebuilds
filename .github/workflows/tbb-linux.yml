@@ -1,11 +1,11 @@
-name: tbb-linux-2204
+name: tbb-linux
 on:
   push:
     branches: [master]
   pull_request:
     branches: [master]
 jobs:
-  tbb-linux-2204:
+  tbb-linux:
     runs-on: ubuntu-22.04
     steps:
       - name: Compile
@@ -16,12 +16,12 @@ jobs:
           cmake -DCMAKE_BUILD_TYPE=Release -DTBB_TEST=OFF -DCMAKE_INSTALL_PREFIX=../tbb-linux ../oneTBB-2021.7.0
           make install -j4
           cd ..
-          tar cvzf tbb-linux-ubuntu-22.04.tar.gz ./tbb-linux/*
+          tar cvzf tbb-linux.tar.gz ./tbb-linux/*
       - name: Release
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: tbb-linux-ubuntu-22.04.tar.gz
-          asset_name: tbb-linux-ubuntu-22.04.tar.gz
+          file: tbb-linux.tar.gz
+          asset_name: tbb-linux.tar.gz
           tag: latest
           overwrite: true

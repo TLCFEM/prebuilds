@@ -1,11 +1,11 @@
-name: v92-vtk-linux-2204
+name: v92-vtk-linux
 on:
   push:
     branches: [master]
   pull_request:
     branches: [master]
 jobs:
-  v92-vtk-linux-2204:
+  v92-vtk-linux:
     runs-on: ubuntu-22.04
     steps:
       - name: Compile

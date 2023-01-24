@@ -6,21 +6,21 @@ on:
     branches: [master]
 jobs:
   hdf5-win:
-    runs-on: windows-2019
+    runs-on: windows-2022
     steps:
       - name: Clone
         uses: actions/checkout@v3
       - name: Compile
         run: |
-          C:/msys64/usr/bin/wget.exe https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.12/hdf5-1.12.1/src/CMake-hdf5-1.12.1.zip
-          unzip CMake-hdf5-1.12.1.zip
-          cd CMake-hdf5-1.12.1
-          ctest -S HDF5config.cmake,BUILD_GENERATOR=VS201964 -C Release -O hdf5.log
+          C:/msys64/usr/bin/wget.exe https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.14/hdf5-1.14.0/src/CMake-hdf5-1.14.0.zip
+          unzip CMake-hdf5-1.14.0.zip
+          cd CMake-hdf5-1.14.0
+          ctest -S HDF5config.cmake,BUILD_GENERATOR=VS202264 -C Release -O hdf5.log
       - name: Release
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: CMake-hdf5-1.12.1/HDF5-1.12.1-win64.zip
-          asset_name: HDF5-1.12.1-win64.zip
+          file: CMake-hdf5-1.14.0/HDF5-1.14.0-win64.zip
+          asset_name: HDF5-1.14.0-win64.zip
           tag: latest
           overwrite: true

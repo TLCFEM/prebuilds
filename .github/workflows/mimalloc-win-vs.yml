@@ -1,0 +1,26 @@
+name: mimalloc-win-vs
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+jobs:
+  mimalloc-win-vs:
+    runs-on: windows-2019
+    steps:
+      - name: Compile
+        run: |
+          git clone https://github.com/microsoft/mimalloc.git
+          mkdir mimalloc-win-vs && mkdir build && cd build
+          cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../mimalloc-win-vs ../mimalloc
+          make install -j4
+          cd ../mimalloc-win-vs
+          7z a ../mimalloc-win-vs.7z ./*
+      - name: Release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: mimalloc-win-vs.7z
+          asset_name: mimalloc-win-vs.7z
+          tag: latest
+          overwrite: true

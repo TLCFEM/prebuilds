@@ -1,26 +1,26 @@
-name: hdf5-linux-2204
+name: hdf5-linux
 on:
   push:
     branches: [master]
   pull_request:
     branches: [master]
 jobs:
-  hdf5-linux-2204:
+  hdf5-linux:
     runs-on: ubuntu-22.04
     steps:
       - name: Clone
         uses: actions/checkout@v3
       - name: Compile
         run: |
-          wget https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.12/hdf5-1.12.1/src/CMake-hdf5-1.12.1.tar.gz
-          tar xf CMake-hdf5-1.12.1.tar.gz
-          cd CMake-hdf5-1.12.1
+          wget https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.14/hdf5-1.14.0/src/CMake-hdf5-1.14.0.tar.gz
+          tar xf CMake-hdf5-1.14.0.tar.gz
+          cd CMake-hdf5-1.14.0
           ctest -S HDF5config.cmake,BUILD_GENERATOR=Unix -C Release -O hdf5.log
       - name: Release
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: CMake-hdf5-1.12.1/HDF5-1.12.1-Linux.tar.gz
-          asset_name: HDF5-1.12.1-Linux.tar.gz
+          file: CMake-hdf5-1.14.0/HDF5-1.14.0-Linux.tar.gz
+          asset_name: HDF5-1.14.0-Linux.tar.gz
           tag: latest
           overwrite: true

@@ -1,0 +1,26 @@
+name: mimalloc-linux
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+jobs:
+  mimalloc-linux:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Compile
+        run: |
+          git clone https://github.com/microsoft/mimalloc.git
+          mkdir mimalloc-linux && mkdir build && cd build
+          cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../mimalloc-linux ../mimalloc
+          make install -j4
+          cd ..
+          tar cvzf mimalloc-linux.tar.gz ./mimalloc-linux/*
+      - name: Release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: mimalloc-linux.tar.gz
+          asset_name: mimalloc-linux.tar.gz
+          tag: latest
+          overwrite: true
