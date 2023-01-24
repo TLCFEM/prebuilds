@@ -10,9 +10,10 @@ jobs:
     steps:
       - name: Compile
         run: |
+          choco install mingw --version=10.3.0
           git clone https://github.com/microsoft/mimalloc.git
           mkdir mimalloc-win-gcc && mkdir build && cd build
-          cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../mimalloc-win-gcc ../mimalloc
+          cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=D:/a/prebuilds/prebuilds/mimalloc-win-gcc ../mimalloc
           make install -j4
           cd ../mimalloc-win-gcc
           7z a ../mimalloc-win-gcc.7z ./*

@@ -12,7 +12,7 @@ jobs:
         run: |
           git clone https://github.com/microsoft/mimalloc.git
           mkdir mimalloc-win-vs && mkdir build && cd build
-          cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../mimalloc-win-vs ../mimalloc
+          cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=D:/a/prebuilds/prebuilds/mimalloc-win-vs ../mimalloc
           make install -j4
           cd ../mimalloc-win-vs
           7z a ../mimalloc-win-vs.7z ./*
