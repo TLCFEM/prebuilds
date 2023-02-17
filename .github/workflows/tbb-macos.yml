@@ -10,10 +10,10 @@ jobs:
     steps:
       - name: Compile
         run: |
-          wget https://github.com/oneapi-src/oneTBB/archive/refs/tags/v2021.7.0.tar.gz
-          tar xf v2021.7.0.tar.gz && rm v2021.7.0.tar.gz
+          wget https://github.com/oneapi-src/oneTBB/archive/refs/tags/v2021.8.0.tar.gz
+          tar xf v2021.8.0.tar.gz && rm v2021.8.0.tar.gz
           mkdir tbb-macos && mkdir build && cd build
-          cmake -DCMAKE_BUILD_TYPE=Release -DTBB_TEST=OFF -DCMAKE_INSTALL_PREFIX=../tbb-macos ../oneTBB-2021.7.0
+          cmake -DCMAKE_BUILD_TYPE=Release -DTBB_TEST=OFF -DCMAKE_INSTALL_PREFIX=../tbb-macos ../oneTBB-2021.8.0
           make install -j4
           cd ..
           tar cvzf tbb-macos.tar.gz ./tbb-macos/*
