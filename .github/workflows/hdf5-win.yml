@@ -20,7 +20,7 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: CMake-hdf5-1.14.2/HDF5-1.14.2-win64.zip
+          file: CMake-hdf5-1.14.2/CMake-hdf5-1.14.2/HDF5-1.14.2-win64.zip
           asset_name: HDF5-1.14.2-win64.zip
           tag: latest
           overwrite: true
