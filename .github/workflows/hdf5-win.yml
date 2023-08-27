@@ -14,7 +14,7 @@ jobs:
         run: |
           C:/msys64/usr/bin/wget.exe https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.14/hdf5-1.14.2/src/CMake-hdf5-1.14.2.zip
           unzip CMake-hdf5-1.14.2.zip
-          cd CMake-hdf5-1.14.2
+          cd CMake-hdf5-1.14.2/CMake-hdf5-1.14.2
           ctest -S HDF5config.cmake,BUILD_GENERATOR=VS201964 -C Release -O hdf5.log
       - name: Release
         uses: svenstaro/upload-release-action@v2
