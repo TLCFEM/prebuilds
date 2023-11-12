@@ -6,5 +6,5 @@ This repository contains a few prebuilt libraries.
 - TBB version 2021.9.0
 - VTK version 9.2.6
 - OpenBLAS version 0.3.15
-- OpenBLAS version 0.3.24
+- OpenBLAS version 0.3.25
 - mimalloc
