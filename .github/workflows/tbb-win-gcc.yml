@@ -6,10 +6,11 @@ on:
     branches: [master]
 jobs:
   tbb-win-gcc:
-    runs-on: windows-2022
+    runs-on: windows-2019
     steps:
       - name: Compile
         run: |
+          choco install mingw --version=10.3.0
           git clone --depth 1 https://github.com/oneapi-src/oneTBB.git
           mkdir build && cd build
           cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release -DTBB_TEST=OFF -DCMAKE_INSTALL_PREFIX=D:/a/prebuilds/prebuilds/tbb-win-gcc ../oneTBB
