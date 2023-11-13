@@ -13,7 +13,7 @@ jobs:
           choco install mingw --version=10.3.0
           git clone --depth 1 https://github.com/oneapi-src/oneTBB.git
           mkdir build && cd build
-          cmake -G "MinGW Makefiles" -DCMAKE_C_COMPILER="C:\\ProgramData\\chocolatey\\lib\\mingw\\tools\\install\\mingw64\\bin\\gcc.exe" -DCMAKE_CXX_COMPILER="C:\\ProgramData\\chocolatey\\lib\\mingw\\tools\\install\\mingw64\\bin\\g++.exe" -DCMAKE_BUILD_TYPE=Release -DTBB_TEST=OFF -DCMAKE_INSTALL_PREFIX=D:/a/prebuilds/prebuilds/tbb-win-gcc ../oneTBB
+          cmake -G "MinGW Makefiles" -DCMAKE_C_COMPILER="C:/ProgramData/chocolatey/lib/mingw/tools/install/mingw64/bin/gcc.exe" -DCMAKE_CXX_COMPILER="C:/ProgramData/chocolatey/lib/mingw/tools/install/mingw64/bin/g++.exe" -DCMAKE_BUILD_TYPE=Release -DTBB_TEST=OFF -DCMAKE_INSTALL_PREFIX=D:/a/prebuilds/prebuilds/tbb-win-gcc ../oneTBB
           cmake --build . --target install --config Release --parallel 4
           cd ../tbb-win-gcc
           7z a ../tbb-win-gcc.7z ./*
