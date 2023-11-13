@@ -1,11 +1,11 @@
-name: v323-openblas-linux
+name: openblas-linux
 on:
   push:
     branches: [master]
   pull_request:
     branches: [master]
 jobs:
-  v321-openblas-linux:
+  openblas-linux:
     runs-on: ubuntu-22.04
     steps:
       - name: Compile
