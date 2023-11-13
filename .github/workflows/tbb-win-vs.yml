@@ -10,11 +10,10 @@ jobs:
     steps:
       - name: Compile
         run: |
-          C:/msys64/usr/bin/wget.exe https://github.com/oneapi-src/oneTBB/archive/refs/tags/v2021.9.0.zip
-          unzip v2021.9.0.zip
+          git clone --depth 1 https://github.com/oneapi-src/oneTBB.git
           mkdir build && cd build
-          cmake -DCMAKE_BUILD_TYPE=Release -DTBB_TEST=OFF -DCMAKE_INSTALL_PREFIX=D:/a/prebuilds/prebuilds/tbb-win-vs ../oneTBB-2021.9.0
-          cmake --build . --target INSTALL --config Release --parallel 4
+          cmake -DCMAKE_BUILD_TYPE=Release -DTBB_TEST=OFF -DCMAKE_INSTALL_PREFIX=D:/a/prebuilds/prebuilds/tbb-win-vs ../oneTBB
+          cmake --build . --target install --config Release --parallel 4
           cd ../tbb-win-vs
           7z a ../tbb-win-vs.7z ./*
       - name: Release

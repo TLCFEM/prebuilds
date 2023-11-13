@@ -10,10 +10,9 @@ jobs:
     steps:
       - name: Compile
         run: |
-          wget https://github.com/oneapi-src/oneTBB/archive/refs/tags/v2021.9.0.tar.gz
-          tar xf v2021.9.0.tar.gz && rm v2021.9.0.tar.gz
+          git clone --depth 1 https://github.com/oneapi-src/oneTBB.git
           mkdir tbb-linux && mkdir build && cd build
-          cmake -DCMAKE_BUILD_TYPE=Release -DTBB_TEST=OFF -DCMAKE_INSTALL_PREFIX=../tbb-linux ../oneTBB-2021.9.0
+          cmake -DCMAKE_BUILD_TYPE=Release -DTBB_TEST=OFF -DCMAKE_INSTALL_PREFIX=../tbb-linux ../oneTBB
           make install -j4
           cd ..
           tar cvzf tbb-linux.tar.gz ./tbb-linux/*
