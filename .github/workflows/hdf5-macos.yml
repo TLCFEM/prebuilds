@@ -6,13 +6,13 @@ on:
     branches: [master]
 jobs:
   hdf5-macos:
-    runs-on: macos-11
+    runs-on: macos-12
     steps:
       - name: Clone
         uses: actions/checkout@v4
       - name: Compile
         run: |
-          export CC=gcc-10 && export CXX=g++-10 && export FC=gfortran-10
+          export CC=gcc-11 && export CXX=g++-11 && export FC=gfortran-11
           wget https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.14/hdf5-1.14.3/src/CMake-hdf5-1.14.3.tar.gz
           tar xf CMake-hdf5-1.14.3.tar.gz
           cd CMake-hdf5-1.14.3
