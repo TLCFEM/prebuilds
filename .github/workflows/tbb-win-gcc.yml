@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Compile
         run: |
-          choco install mingw --version=11.2.0.07112021
+          choco install mingw --version=12.2.0.03042023
           git clone --depth 1 --branch v2021.11.0 https://github.com/oneapi-src/oneTBB.git
           C:/msys64/usr/bin/sed.exe -i 's@if (NOT APPLE)@if (NOT APPLE AND NOT MINGW)@g' oneTBB/cmake/compilers/GNU.cmake
           mkdir build && cd build
