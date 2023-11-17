@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Compile
         run: |
-          git clone --depth 1 --branch v2021.9.0 https://github.com/oneapi-src/oneTBB.git
+          git clone --depth 1 --branch v2021.11.0 https://github.com/oneapi-src/oneTBB.git
           mkdir tbb-linux && mkdir build && cd build
           cmake -DCMAKE_BUILD_TYPE=Release -DTBB_TEST=OFF -DCMAKE_INSTALL_PREFIX=../tbb-linux ../oneTBB
           make install -j4
