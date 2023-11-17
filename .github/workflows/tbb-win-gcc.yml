@@ -15,7 +15,7 @@ jobs:
           C:/msys64/usr/bin/sed.exe -i 's@if (NOT APPLE)@if (NOT APPLE AND NOT MINGW)@g' oneTBB/cmake/compilers/GNU.cmake
           C:/msys64/usr/bin/sed.exe -i 's@-Werror=format-security@-Werror=format-security -Wno-error=unused-value@g' oneTBB/cmake/compilers/GNU.cmake
           mkdir build && cd build
-          cmake -G "MinGW Makefiles" -DCMAKE_C_COMPILER="C:/ProgramData/chocolatey/lib/mingw/tools/install/mingw64/bin/gcc.exe" -DCMAKE_CXX_COMPILER="C:/ProgramData/chocolatey/lib/mingw/tools/install/mingw64/bin/g++.exe" -DCMAKE_BUILD_TYPE=Release -DTBB_TEST=OFF -DCMAKE_INSTALL_PREFIX=D:/a/prebuilds/prebuilds/tbb-win-gcc ../oneTBB
+          cmake -G "MinGW Makefiles" -DCMAKE_C_COMPILER="C:/ProgramData/mingw64/mingw64/bin/gcc.exe" -DCMAKE_CXX_COMPILER="C:/ProgramData/mingw64/mingw64/bin/g++.exe" -DCMAKE_BUILD_TYPE=Release -DTBB_TEST=OFF -DCMAKE_INSTALL_PREFIX=D:/a/prebuilds/prebuilds/tbb-win-gcc ../oneTBB
           cmake --build . --target install --config Release --parallel 4
           cd ../tbb-win-gcc
           7z a ../tbb-win-gcc.7z ./*
