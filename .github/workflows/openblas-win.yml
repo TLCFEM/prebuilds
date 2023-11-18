@@ -10,11 +10,11 @@ jobs:
     steps:
       - name: Compile
         run: |
-          choco install mingw --version=10.3.0
-          C:/msys64/usr/bin/wget.exe https://github.com/xianyi/OpenBLAS/releases/download/v0.3.25/OpenBLAS-0.3.25.zip
+          choco install mingw --version=13.2.0
+          C:/msys64/usr/bin/wget.exe -q https://github.com/xianyi/OpenBLAS/releases/download/v0.3.25/OpenBLAS-0.3.25.zip
           7z x OpenBLAS-0.3.25.zip && del OpenBLAS-0.3.25.zip && cd OpenBLAS-0.3.25
-          C:/msys64/usr/bin/sed.exe -i 's@# CC = gcc@CC = C:/ProgramData/chocolatey/lib/mingw/tools/install/mingw64/bin/gcc.exe@g' Makefile.rule
-          C:/msys64/usr/bin/sed.exe -i 's@# FC = gfortran@FC = C:/ProgramData/chocolatey/lib/mingw/tools/install/mingw64/bin/gfortran.exe@g' Makefile.rule
+          C:/msys64/usr/bin/sed.exe -i 's@# CC = gcc@CC = C:/ProgramData/mingw64/mingw64/bin/gcc.exe@g' Makefile.rule
+          C:/msys64/usr/bin/sed.exe -i 's@# FC = gfortran@FC = C:/ProgramData/mingw64/mingw64/bin/gfortran.exe@g' Makefile.rule
           C:/msys64/usr/bin/sed.exe -i 's/# DYNAMIC_ARCH = 1/DYNAMIC_ARCH = 1/g' Makefile.rule
           C:/msys64/usr/bin/sed.exe -i 's/# BINARY=64/BINARY=64/g' Makefile.rule
           C:/msys64/usr/bin/sed.exe -i 's/# USE_THREAD = 0/USE_THREAD = 1/g' Makefile.rule

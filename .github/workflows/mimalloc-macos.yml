@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Compile
         run: |
-          git clone https://github.com/microsoft/mimalloc.git
+          git clone --depth 1 https://github.com/microsoft/mimalloc.git
           mkdir mimalloc-macos && mkdir build && cd build
           cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../mimalloc-macos ../mimalloc
           make install -j4

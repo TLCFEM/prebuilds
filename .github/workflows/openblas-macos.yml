@@ -11,7 +11,7 @@ jobs:
       - name: Compile
         run: |
           export CC=gcc-11 && export CXX=g++-11 && export FC=gfortran-11
-          wget https://github.com/xianyi/OpenBLAS/releases/download/v0.3.25/OpenBLAS-0.3.25.tar.gz
+          wget -q https://github.com/xianyi/OpenBLAS/releases/download/v0.3.25/OpenBLAS-0.3.25.tar.gz
           tar xf OpenBLAS-0.3.25.tar.gz && rm OpenBLAS-0.3.25.tar.gz && cd OpenBLAS-0.3.25
           sed -i '~' 's/# DYNAMIC_ARCH = 1/DYNAMIC_ARCH = 1/g' Makefile.rule
           sed -i '~' 's/# BINARY=64/BINARY=64/g' Makefile.rule

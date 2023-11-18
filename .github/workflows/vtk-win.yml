@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Compile
         run: |
-          C:/msys64/usr/bin/wget.exe https://www.vtk.org/files/release/9.2/VTK-9.2.6.tar.gz
+          C:/msys64/usr/bin/wget.exe -q https://www.vtk.org/files/release/9.2/VTK-9.2.6.tar.gz
           tar xf VTK-9.2.6.tar.gz && del VTK-9.2.6.tar.gz
           mkdir VTK-build && mkdir VTK-out && cd VTK-build
           cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=D:/a/prebuilds/prebuilds/VTK-out ../VTK-9.2.6

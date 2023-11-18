@@ -12,7 +12,7 @@ jobs:
         run: |
           export FC=gfortran-11
           brew install glfw glew
-          wget https://www.vtk.org/files/release/9.2/VTK-9.2.6.tar.gz
+          wget -q https://www.vtk.org/files/release/9.2/VTK-9.2.6.tar.gz
           tar xf VTK-9.2.6.tar.gz && rm VTK-9.2.6.tar.gz
           mkdir VTK-build && cd VTK-build
           cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=../VTK-out ../VTK-9.2.6
