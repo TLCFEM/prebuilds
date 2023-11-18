@@ -11,9 +11,9 @@ jobs:
       - name: Compile
         run: |
           choco install mingw --version=13.2.0
-          export CC=C:/ProgramData/mingw64/mingw64/bin/gcc.exe
-          export CXX=C:/ProgramData/mingw64/mingw64/bin/g++.exe
-          export FC=C:/ProgramData/mingw64/mingw64/bin/gfortran.exe
+          set CC=C:/ProgramData/mingw64/mingw64/bin/gcc.exe
+          set CXX=C:/ProgramData/mingw64/mingw64/bin/g++.exe
+          set FC=C:/ProgramData/mingw64/mingw64/bin/gfortran.exe
           git clone --depth 1 --branch v2021.11.0 https://github.com/oneapi-src/oneTBB.git
           C:/msys64/usr/bin/sed.exe -i 's@if (NOT APPLE)@if (NOT APPLE AND NOT MINGW)@g' oneTBB/cmake/compilers/GNU.cmake
           C:/msys64/usr/bin/sed.exe -i 's@-Werror=format-security@-Werror=format-security -Wno-error=unused-value@g' oneTBB/cmake/compilers/GNU.cmake
