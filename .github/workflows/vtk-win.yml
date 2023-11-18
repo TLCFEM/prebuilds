@@ -1,11 +1,11 @@
-name: v92-vtk-win
+name: vtk-win
 on:
   push:
     branches: [master]
   pull_request:
     branches: [master]
 jobs:
-  v92-vtk-win:
+  vtk-win:
     runs-on: windows-2019
     steps:
       - name: Compile
