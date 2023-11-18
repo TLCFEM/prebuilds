@@ -16,9 +16,6 @@ jobs:
           unzip CMake-hdf5-1.14.3.zip
           cd CMake-hdf5-1.14.3
           ctest -S HDF5config.cmake,BUILD_GENERATOR=VS202264 -C Release -O hdf5.log
-      - name: Debug
-        if: failure()
-        uses: mxschmitt/action-tmate@v3
       - name: Release
         uses: svenstaro/upload-release-action@v2
         with:
