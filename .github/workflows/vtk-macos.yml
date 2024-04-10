@@ -6,7 +6,7 @@ on:
     branches: [master]
 jobs:
   vtk-macos:
-    runs-on: macos-11
+    runs-on: macos-13
     steps:
       - name: Compile
         run: |
