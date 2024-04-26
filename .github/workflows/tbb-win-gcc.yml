@@ -11,7 +11,7 @@ jobs:
       - name: Compile
         run: |
           choco install mingw --version=13.2.0
-          git clone --depth 1 --branch v2021.11.0 https://github.com/oneapi-src/oneTBB.git
+          git clone --depth 1 --branch v2021.12.0 https://github.com/oneapi-src/oneTBB.git
           C:/msys64/usr/bin/sed.exe -i 's@if (NOT APPLE)@if (NOT APPLE AND NOT MINGW)@g' oneTBB/cmake/compilers/GNU.cmake
           C:/msys64/usr/bin/sed.exe -i 's@-Werror=format-security@-Werror=format-security -Wno-error=unused-value@g' oneTBB/cmake/compilers/GNU.cmake
           mkdir build && cd build

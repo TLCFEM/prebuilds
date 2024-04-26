@@ -11,7 +11,7 @@ jobs:
       - name: Compile
         run: |
           export CC=$(brew --prefix llvm@15)/bin/clang && export CXX=$(brew --prefix llvm@15)/bin/clang++
-          git clone --depth 1 --branch v2021.11.0 https://github.com/oneapi-src/oneTBB.git
+          git clone --depth 1 --branch v2021.12.0 https://github.com/oneapi-src/oneTBB.git
           mkdir tbb-macos && mkdir build && cd build
           cmake -DCMAKE_BUILD_TYPE=Release -DTBB_TEST=OFF -DCMAKE_INSTALL_PREFIX=../tbb-macos ../oneTBB
           make install -j4
