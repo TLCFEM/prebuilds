@@ -1,17 +1,17 @@
-name: vtk-win
+name: vtk-win-gcc
 on:
   push:
     branches: [master]
   pull_request:
     branches: [master]
 jobs:
-  vtk-win:
+  vtk-win-gcc:
     runs-on: windows-2022
     steps:
       - name: Compile
         run: |
           choco install mingw --version=13.2.0
-          C:/msys64/usr/bin/wget.exe -q https://www.vtk.org/files/release/9.3/VTK-9.2.6.tar.gz
+          C:/msys64/usr/bin/wget.exe -q https://www.vtk.org/files/release/9.2/VTK-9.2.6.tar.gz
           tar xf VTK-9.2.6.tar.gz && del VTK-9.2.6.tar.gz
           mkdir VTK-build && mkdir VTK-out && cd VTK-build
           cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=C:/ProgramData/mingw64/mingw64/bin/gcc.exe -DCMAKE_CXX_COMPILER=C:/ProgramData/mingw64/mingw64/bin/g++.exe -DCMAKE_Fortran_COMPILER=C:/ProgramData/mingw64/mingw64/bin/gfortran.exe -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=D:/a/prebuilds/prebuilds/VTK-out ../VTK-9.2.6
