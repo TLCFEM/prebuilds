@@ -16,7 +16,7 @@ jobs:
           C:/msys64/usr/bin/wget.exe -q https://www.vtk.org/files/release/9.3/VTK-9.3.1.tar.gz
           tar xf VTK-9.3.1.tar.gz && del VTK-9.3.1.tar.gz
           mkdir VTK-build && mkdir VTK-out && cd VTK-build
-          cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=./mingw64/bin/gcc.exe -DCMAKE_CXX_COMPILER=./mingw64/bin/g++.exe -DCMAKE_Fortran_COMPILER=./mingw64/bin/gfortran.exe -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=D:/a/prebuilds/prebuilds/VTK-out ../VTK-9.3.1
+          cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=D:/a/prebuilds/prebuilds/VTK-build/mingw64/bin/gcc.exe -DCMAKE_CXX_COMPILER=D:/a/prebuilds/prebuilds/VTK-build/mingw64/bin/g++.exe -DCMAKE_Fortran_COMPILER=D:/a/prebuilds/prebuilds/VTK-build/mingw64/bin/gfortran.exe -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=D:/a/prebuilds/prebuilds/VTK-out ../VTK-9.3.1
           cmake --build . --target install --config Release --parallel 4
           cd ../VTK-out
           7z a ../VTK-9.3.1-win-gcc.7z ./*
