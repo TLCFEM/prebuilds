@@ -27,25 +27,3 @@ jobs:
           asset_name: VTK-9.4.0-linux.tar.gz
           tag: latest
           overwrite: true
-  vtk-aarch64:
-    runs-on: ubuntu-22.04
-    steps:
-      - name: Compile
-        run: |
-          sudo apt-get update -y
-          sudo apt-get install libglvnd-dev gcc-aarch64-linux-gnu g++-aarch64-linux-gnu gfortran-aarch64-linux-gnu libc6-dev-arm64-cross -y
-          wget -q https://www.vtk.org/files/release/9.4/VTK-9.4.0.tar.gz
-          tar xf VTK-9.4.0.tar.gz && rm VTK-9.4.0.tar.gz
-          mkdir VTK-build && cd VTK-build
-          cmake -DCMAKE_C_COMPILER=aarch64-linux-gnu-gcc -DCMAKE_CXX_COMPILER=aarch64-linux-gnu-g++ -DCMAKE_Fortran_COMPILER=aarch64-linux-gnu-gfortran -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=../VTK-out ../VTK-9.4.0
-          make install -j4
-          cd ../VTK-out
-          tar cvzf ../VTK-9.4.0-linux.tar.gz ./*
-      - name: Release
-        uses: svenstaro/upload-release-action@v2
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: VTK-9.4.0-linux.tar.gz
-          asset_name: VTK-9.4.0-linux-aarch64.tar.gz
-          tag: latest
-          overwrite: true
