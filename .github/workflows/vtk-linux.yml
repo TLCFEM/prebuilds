@@ -37,8 +37,8 @@ jobs:
           distro: ubuntu22.04
           base_image: quay.io/pypa/manylinux_2_34_aarch64
           run: |
-            sudo dnf update -y
-            sudo dnf install libglvnd-dev -y
+            dnf update -y
+            dnf install libglvnd-dev -y
             wget -q https://www.vtk.org/files/release/9.4/VTK-9.4.0.tar.gz
             tar xf VTK-9.4.0.tar.gz && rm VTK-9.4.0.tar.gz
             mkdir VTK-build && cd VTK-build
