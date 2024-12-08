@@ -36,7 +36,7 @@ jobs:
     steps:
       - name: Compile
         run: |
-          sudo apt-get install gcc-aarch64-linux-gnu g++-aarch64-linux-gnu gfortran-aarch64-linux-gnu -y
+          sudo apt-get install gcc-aarch64-linux-gnu g++-aarch64-linux-gnu gfortran-aarch64-linux-gnu libc6-dev-arm64-cross -y
           wget -q https://github.com/xianyi/OpenBLAS/releases/download/v0.3.28/OpenBLAS-0.3.28.tar.gz
           tar xf OpenBLAS-0.3.28.tar.gz && rm OpenBLAS-0.3.28.tar.gz && cd OpenBLAS-0.3.28
           sed -i 's/# CC = aarch64-linux-gnu-gcc/CC = aarch64-linux-gnu-gcc/g' Makefile.rule

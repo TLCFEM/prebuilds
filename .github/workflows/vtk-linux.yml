@@ -33,7 +33,7 @@ jobs:
       - name: Compile
         run: |
           sudo apt-get update -y
-          sudo apt-get install libglvnd-dev gcc-aarch64-linux-gnu g++-aarch64-linux-gnu gfortran-aarch64-linux-gnu -y
+          sudo apt-get install libglvnd-dev gcc-aarch64-linux-gnu g++-aarch64-linux-gnu gfortran-aarch64-linux-gnu libc6-dev-arm64-cross -y
           wget -q https://www.vtk.org/files/release/9.4/VTK-9.4.0.tar.gz
           tar xf VTK-9.4.0.tar.gz && rm VTK-9.4.0.tar.gz
           mkdir VTK-build && cd VTK-build
