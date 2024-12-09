@@ -19,7 +19,7 @@ jobs:
           $env:FC="D:/a/prebuilds/prebuilds/mingw64/bin/gfortran.exe"
       - name: Name
         run: |
-          if ($env:gcc -eq 'true') {
+          if ([bool]::Parse($env:gcc)) {
             $env:ARCHIVE = 'mimalloc-win-gcc.7z'
           } else {
             $env:ARCHIVE = 'mimalloc-win-vs.7z'
@@ -28,7 +28,7 @@ jobs:
         run: |
           git clone --depth 1 https://github.com/microsoft/mimalloc.git
           mkdir mimalloc-install && mkdir build && cd build
-          if ($env:gcc -eq 'true') {
+          if ([bool]::Parse($env:gcc)) {
             cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=D:/a/prebuilds/prebuilds/mimalloc-install ../mimalloc
           } else {
             cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=D:/a/prebuilds/prebuilds/mimalloc-install ../mimalloc
