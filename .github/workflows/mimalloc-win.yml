@@ -6,7 +6,7 @@ jobs:
   mimalloc-win:
     strategy:
       matrix:
-        gcc: [ true, false ]
+        gcc: [ 'ON', 'OFF' ]
     runs-on: windows-2022
     steps:
       - name: Winlibs
@@ -18,17 +18,18 @@ jobs:
           $env:CXX="D:/a/prebuilds/prebuilds/mingw64/bin/g++.exe"
           $env:FC="D:/a/prebuilds/prebuilds/mingw64/bin/gfortran.exe"
       - name: Name
+        shell: powershell
         run: |
-          if (${{ matrix.gcc }}) {
-            $env:ARCHIVE = 'mimalloc-win-gcc.7z'
+          if (${{ matrix.gcc }} -eq 'ON') {
+            $env:ARCHIVE = 'mimalloc-win-gcc.zip'
           } else {
-            $env:ARCHIVE = 'mimalloc-win-vs.7z'
+            $env:ARCHIVE = 'mimalloc-win-vs.zip'
           }
       - name: Compile
         run: |
           git clone --depth 1 https://github.com/microsoft/mimalloc.git
           mkdir mimalloc-install && mkdir build && cd build
-          if (${{ matrix.gcc }}) {
+          if (${{ matrix.gcc }} -eq 'ON') {
             cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=D:/a/prebuilds/prebuilds/mimalloc-install ../mimalloc
           } else {
             cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=D:/a/prebuilds/prebuilds/mimalloc-install ../mimalloc
