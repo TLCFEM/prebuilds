@@ -8,15 +8,19 @@ jobs:
         uses: actions/checkout@v4
       - name: Compile
         run: |
-          C:/msys64/usr/bin/wget.exe -q https://support.hdfgroup.org/releases/hdf5/v1_14/v1_14_5/downloads/hdf5-1.14.5.zip
-          unzip hdf5-1.14.5.zip
+          C:/msys64/usr/bin/wget.exe -q https://support.hdfgroup.org/releases/hdf5/v1_14/v1_14_5/downloads/hdf5-1.14.5.zip && unzip hdf5-1.14.5.zip
+          mkdir packing && mkdir build && cd build
+          cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DHDF5_ENABLE_Z_LIB_SUPPORT=OFF -DCMAKE_INSTALL_PREFIX=../packing ../hdf5-1.14.5
+          cmake --build . --target install --config Release --parallel 4
+          cd ../packing && 7z a ../HDF5-1.14.5-win.zip ./*
+
           cd hdf5-1.14.5
           ctest -S HDF5config.cmake,BUILD_GENERATOR=VS202264 -C Release -O hdf5.log
       - name: Release
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: hdf5-1.14.5/HDF5-1.14.5-win64.zip
-          asset_name: HDF5-1.14.5-win64.zip
+          file: HDF5-1.14.5-win.zip
+          asset_name: HDF5-1.14.5-win.zip
           tag: latest
           overwrite: true

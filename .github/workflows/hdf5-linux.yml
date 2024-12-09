@@ -8,15 +8,16 @@ jobs:
         uses: actions/checkout@v4
       - name: Compile
         run: |
-          wget -q https://support.hdfgroup.org/releases/hdf5/v1_14/v1_14_5/downloads/hdf5-1.14.5.tar.gz
-          tar xf hdf5-1.14.5.tar.gz
-          cd hdf5-1.14.5
-          ctest -S HDF5config.cmake,BUILD_GENERATOR=Unix -C Release -O hdf5.log
+          wget -q https://support.hdfgroup.org/releases/hdf5/v1_14/v1_14_5/downloads/hdf5-1.14.5.tar.gz && tar xf hdf5-1.14.5.tar.gz
+          mkdir packing && mkdir build && cd build
+          cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DHDF5_ENABLE_Z_LIB_SUPPORT=OFF -DCMAKE_INSTALL_PREFIX=../packing ../hdf5-1.14.5
+          make install -j4
+          cd ../packing && tar cvzf ../HDF5-1.14.5-linux.tar.gz ./*
       - name: Release
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: hdf5-1.14.5/HDF5-1.14.5-Linux.tar.gz
-          asset_name: HDF5-1.14.5-Linux.tar.gz
+          file: HDF5-1.14.5-linux.tar.gz
+          asset_name: HDF5-1.14.5-linux.tar.gz
           tag: latest
           overwrite: true
