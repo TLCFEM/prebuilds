@@ -12,7 +12,7 @@ jobs:
         run: |
           C:/msys64/usr/bin/wget.exe -q https://github.com/brechtsanders/winlibs_mingw/releases/download/13.2.0posix-18.1.5-11.0.1-msvcrt-r8/winlibs-x86_64-posix-seh-gcc-13.2.0-mingw-w64msvcrt-11.0.1-r8.7z
           7z x winlibs-x86_64-posix-seh-gcc-13.2.0-mingw-w64msvcrt-11.0.1-r8.7z
-          ls -halt
+          ls -n
       - name: Compile
         shell: bash
         run: |
