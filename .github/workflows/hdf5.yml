@@ -52,7 +52,7 @@ jobs:
         run: |
           C:/msys64/usr/bin/wget.exe -q https://support.hdfgroup.org/releases/hdf5/v1_14/v1_14_5/downloads/hdf5-1.14.5.zip && unzip hdf5-1.14.5.zip
           mkdir packing && mkdir build && cd build
-          cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DHDF5_ENABLE_Z_LIB_SUPPORT=OFF -DCMAKE_INSTALL_PREFIX=../packing ../hdf5-1.14.5
+          cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DHDF5_ENABLE_Z_LIB_SUPPORT=OFF -DCMAKE_INSTALL_PREFIX="D:\a\prebuilds\prebuilds\packing" ../hdf5-1.14.5
           cmake --build . --target install --config Release --parallel 4
           cd ../packing && 7z a ../HDF5-1.14.5-win.zip ./*
       - name: Release
@@ -73,7 +73,7 @@ jobs:
           choco install mingw --version=13.2.0
           C:/msys64/usr/bin/wget.exe -q https://support.hdfgroup.org/releases/hdf5/v1_14/v1_14_5/downloads/hdf5-1.14.5.zip && unzip hdf5-1.14.5.zip
           mkdir packing && mkdir build && cd build
-          cmake -G "MinGW Makefiles" -DCMAKE_C_COMPILER=C:/ProgramData/mingw64/mingw64/bin/gcc.exe -DCMAKE_CXX_COMPILER=C:/ProgramData/mingw64/mingw64/bin/g++.exe -DCMAKE_Fortran_COMPILER=C:/ProgramData/mingw64/mingw64/bin/gfortran.exe -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DHDF5_ENABLE_Z_LIB_SUPPORT=OFF -DCMAKE_INSTALL_PREFIX=../packing ../hdf5-1.14.5
+          cmake -G "MinGW Makefiles" -DCMAKE_C_COMPILER=C:/ProgramData/mingw64/mingw64/bin/gcc.exe -DCMAKE_CXX_COMPILER=C:/ProgramData/mingw64/mingw64/bin/g++.exe -DCMAKE_Fortran_COMPILER=C:/ProgramData/mingw64/mingw64/bin/gfortran.exe -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DHDF5_ENABLE_Z_LIB_SUPPORT=OFF -DCMAKE_INSTALL_PREFIX="D:\a\prebuilds\prebuilds\packing" ../hdf5-1.14.5
           cmake --build . --target install --config Release --parallel 4
           cd ../packing && 7z a ../HDF5-1.14.5-win-gcc.zip ./*
       - name: Release
