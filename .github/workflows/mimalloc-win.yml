@@ -20,16 +20,16 @@ jobs:
       - name: Name
         shell: powershell
         run: |
-          if (${{ matrix.gcc }} -eq "ON") {
-            $env:ARCHIVE = "mimalloc-win-gcc.zip"
+          if ($env:gcc -eq "ON") {
+            $env:ARCHIVE="mimalloc-win-gcc.7z"
           } else {
-            $env:ARCHIVE = "mimalloc-win-vs.zip"
+            $env:ARCHIVE="mimalloc-win.7z"
           }
       - name: Compile
         run: |
           git clone --depth 1 https://github.com/microsoft/mimalloc.git
           mkdir mimalloc-install && mkdir build && cd build
-          if (${{ matrix.gcc }} -eq "ON") {
+          if ($env:gcc -eq "ON") {
             cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=D:/a/prebuilds/prebuilds/mimalloc-install ../mimalloc
           } else {
             cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=D:/a/prebuilds/prebuilds/mimalloc-install ../mimalloc
