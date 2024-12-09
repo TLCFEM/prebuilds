@@ -28,13 +28,12 @@ jobs:
         uses: actions/checkout@v4
       - name: Compile
         run: |
-          export CC=gcc-12 && export CXX=g++-12 && export FC=gfortran-12
+          export CC=gcc-13 && export CXX=g++-13 && export FC=gfortran-13
           wget -q https://support.hdfgroup.org/releases/hdf5/v1_14/v1_14_5/downloads/hdf5-1.14.5.tar.gz && tar xf hdf5-1.14.5.tar.gz
           mkdir packing && mkdir build && cd build
           cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DHDF5_ENABLE_Z_LIB_SUPPORT=OFF -DCMAKE_INSTALL_PREFIX=../packing ../hdf5-1.14.5
           cmake --build . --target install --config Release --parallel 4
-          cd ../packing
-          tar cvzf ../HDF5-1.14.5-macos.tar.gz ./*
+          cd ../packing && tar cvzf ../HDF5-1.14.5-macos.tar.gz ./*
       - name: Release
         uses: svenstaro/upload-release-action@v2
         with:
