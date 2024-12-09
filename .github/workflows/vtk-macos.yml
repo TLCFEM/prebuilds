@@ -12,7 +12,7 @@ jobs:
           tar xf VTK-9.4.0.tar.gz && rm VTK-9.4.0.tar.gz
           mkdir VTK-build && cd VTK-build
           cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=../VTK-out ../VTK-9.4.0
-          make install -j4
+          cmake --build . --target install --config Release --parallel 4
           cd ../VTK-out
           tar cvzf ../VTK-9.4.0-macos.tar.gz ./*
       - name: Release

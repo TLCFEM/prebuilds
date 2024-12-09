@@ -6,13 +6,12 @@ jobs:
     steps:
       - name: Compile
         run: |
-          sudo apt-get update -y
           sudo apt-get install libglvnd-dev gcc gfortran g++ -y
           wget -q https://www.vtk.org/files/release/9.4/VTK-9.4.0.tar.gz
           tar xf VTK-9.4.0.tar.gz && rm VTK-9.4.0.tar.gz
           mkdir VTK-build && cd VTK-build
           cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=../VTK-out ../VTK-9.4.0
-          make install -j4
+          cmake --build . --target install --config Release --parallel 4
           cd ../VTK-out
           tar cvzf ../VTK-9.4.0-linux.tar.gz ./*
       - name: Release
@@ -23,22 +22,3 @@ jobs:
           asset_name: VTK-9.4.0-linux.tar.gz
           tag: latest
           overwrite: true
-  vtk-aarch64:
-    runs-on: ubuntu-22.04
-    steps:
-      - name: Build
-        uses: uraimo/run-on-arch-action@v2
-        with:
-          arch: aarch64
-          distro: ubuntu22.04
-          base_image: quay.io/pypa/manylinux_2_34_aarch64
-          run: |
-            dnf update -y
-            dnf install libglvnd-devel wget cmake gcc gcc-c++ gcc-gfortran -y
-            wget -q https://www.vtk.org/files/release/9.4/VTK-9.4.0.tar.gz
-            tar xf VTK-9.4.0.tar.gz && rm VTK-9.4.0.tar.gz
-            mkdir VTK-build && cd VTK-build
-            cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=../VTK-out ../VTK-9.4.0
-            make install -j4
-            cd ../VTK-out
-            tar cvzf ../VTK-9.4.0-linux.tar.gz ./*
