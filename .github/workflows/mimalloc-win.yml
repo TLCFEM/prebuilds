@@ -12,14 +12,13 @@ jobs:
         run: |
           C:/msys64/usr/bin/wget.exe -q https://github.com/brechtsanders/winlibs_mingw/releases/download/13.2.0posix-18.1.5-11.0.1-msvcrt-r8/winlibs-x86_64-posix-seh-gcc-13.2.0-mingw-w64msvcrt-11.0.1-r8.7z
           7z x winlibs-x86_64-posix-seh-gcc-13.2.0-mingw-w64msvcrt-11.0.1-r8.7z
-          ls -n
       - name: Compile
         shell: bash
         run: |
           git clone --depth 1 https://github.com/microsoft/mimalloc.git
           mkdir mimalloc-install && mkdir build && cd build
           if [ ${{ matrix.archive }} == 'mimalloc-win-gcc.7z' ]; then
-            export CC=$(pwd)/mingw64/bin/gcc.exe && export CXX=$(pwd)/mingw64/bin/g++.exe && export FC=$(pwd)/mingw64/bin/gfortran.exe && cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../mimalloc-install ../mimalloc
+            export CC=$(pwd)/../mingw64/bin/gcc.exe && export CXX=$(pwd)/../mingw64/bin/g++.exe && export FC=$(pwd)/../mingw64/bin/gfortran.exe && cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../mimalloc-install ../mimalloc
           else
             cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../mimalloc-install ../mimalloc
           fi
