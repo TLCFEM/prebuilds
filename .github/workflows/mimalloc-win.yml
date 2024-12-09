@@ -12,9 +12,11 @@ jobs:
       - name: Winlibs
         if: matrix.gcc
         run: |
+          C:/msys64/usr/bin/wget.exe -q https://github.com/brechtsanders/winlibs_mingw/releases/download/13.2.0posix-18.1.5-11.0.1-msvcrt-r8/winlibs-x86_64-posix-seh-gcc-13.2.0-mingw-w64msvcrt-11.0.1-r8.7z
+          7z x winlibs-x86_64-posix-seh-gcc-13.2.0-mingw-w64msvcrt-11.0.1-r8.7z
           choco install mingw --version=13.2.0
-          $env:PATH="C:/ProgramData/mingw64/mingw64;$env:PATH"
-      - name: name
+          $env:PATH="D:/a/prebuilds/prebuilds/mingw64;$env:PATH"
+      - name: Name
         run: |
           if ($env:gcc -eq 'true') {
             $env:ARCHIVE = 'mimalloc-win-gcc.7z'
@@ -31,12 +33,12 @@ jobs:
             cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=D:/a/prebuilds/prebuilds/mimalloc-install ../mimalloc
           }
           cmake --build . --target install --config Release --parallel 4
-          cd ../mimalloc-install && 7z a ../$env:ARCHIVE ./*
+          cd ../mimalloc-install && 7z a ../${{ env.ARCHIVE }} ./*
       - name: Release
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: $env:ARCHIVE
-          asset_name: $env:ARCHIVE
+          file: ${{ env.ARCHIVE }}
+          asset_name: ${{ env.ARCHIVE }}
           tag: latest
           overwrite: true
