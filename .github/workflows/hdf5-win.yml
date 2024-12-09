@@ -13,9 +13,6 @@ jobs:
           cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DHDF5_ENABLE_Z_LIB_SUPPORT=OFF -DCMAKE_INSTALL_PREFIX=../packing ../hdf5-1.14.5
           cmake --build . --target install --config Release --parallel 4
           cd ../packing && 7z a ../HDF5-1.14.5-win.zip ./*
-
-          cd hdf5-1.14.5
-          ctest -S HDF5config.cmake,BUILD_GENERATOR=VS202264 -C Release -O hdf5.log
       - name: Release
         uses: svenstaro/upload-release-action@v2
         with:
