@@ -1,9 +1,5 @@
 name: tbb-win-vs
-on:
-  push:
-    branches: [master]
-  pull_request:
-    branches: [master]
+on: workflow_dispatch
 jobs:
   tbb-win-vs:
     runs-on: windows-2022

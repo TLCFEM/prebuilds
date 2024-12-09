@@ -1,9 +1,5 @@
 name: openblas-linux
-on:
-  push:
-    branches: [master]
-  pull_request:
-    branches: [master]
+on: workflow_dispatch
 jobs:
   openblas-amd64:
     runs-on: ubuntu-22.04

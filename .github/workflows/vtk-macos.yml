@@ -1,9 +1,5 @@
 name: vtk-macos
-on:
-  push:
-    branches: [master]
-  pull_request:
-    branches: [master]
+on: workflow_dispatch
 jobs:
   vtk-macos:
     runs-on: macos-13

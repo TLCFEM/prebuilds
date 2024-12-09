@@ -1,9 +1,5 @@
 name: mimalloc-linux
-on:
-  push:
-    branches: [master]
-  pull_request:
-    branches: [master]
+on: workflow_dispatch
 jobs:
   mimalloc-linux:
     runs-on: ubuntu-22.04

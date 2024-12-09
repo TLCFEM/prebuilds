@@ -1,9 +1,5 @@
 name: openblas-macos
-on:
-  push:
-    branches: [master]
-  pull_request:
-    branches: [master]
+on: workflow_dispatch
 jobs:
   openblas-macos:
     runs-on: macos-13

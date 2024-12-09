@@ -1,9 +1,5 @@
 name: openblas-win
-on:
-  push:
-    branches: [master]
-  pull_request:
-    branches: [master]
+on: workflow_dispatch
 jobs:
   openblas-win:
     runs-on: windows-2022

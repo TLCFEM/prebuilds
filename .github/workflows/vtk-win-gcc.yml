@@ -1,9 +1,5 @@
 name: vtk-win-gcc
-on:
-  push:
-    branches: [master]
-  pull_request:
-    branches: [master]
+on: workflow_dispatch
 jobs:
   vtk-win-gcc:
     runs-on: windows-2022

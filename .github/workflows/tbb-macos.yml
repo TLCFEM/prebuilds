@@ -1,9 +1,5 @@
 name: tbb-macos
-on:
-  push:
-    branches: [master]
-  pull_request:
-    branches: [master]
+on: workflow_dispatch
 jobs:
   tbb-macos:
     runs-on: macos-13
