@@ -6,7 +6,7 @@ jobs:
   mimalloc-win:
     strategy:
       matrix:
-        gcc: [ 'ON', 'OFF' ]
+        gcc: [ "ON", "OFF" ]
     runs-on: windows-2022
     steps:
       - name: Winlibs
