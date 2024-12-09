@@ -6,7 +6,7 @@ jobs:
     steps:
       - name: Compile
         run: |
-          export CC=gcc-12 && export CXX=g++-12 && export FC=gfortran-12
+          export CC=gcc-13 && export CXX=g++-13 && export FC=gfortran-13
           wget -q https://github.com/xianyi/OpenBLAS/releases/download/v0.3.28/OpenBLAS-0.3.28.tar.gz
           tar xf OpenBLAS-0.3.28.tar.gz && rm OpenBLAS-0.3.28.tar.gz && cd OpenBLAS-0.3.28
           sed -i '~' 's/# DYNAMIC_ARCH = 1/DYNAMIC_ARCH = 1/g' Makefile.rule
