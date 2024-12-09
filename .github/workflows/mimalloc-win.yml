@@ -1,46 +1,37 @@
 name: mimalloc-win
 on: workflow_dispatch
-env:
-  ARCHIVE: ''
 jobs:
   mimalloc-win:
     strategy:
       matrix:
-        gcc: [ "ON", "OFF" ]
+        archive: [ mimalloc-win.7z, mimalloc-win-gcc.7z ]
     runs-on: windows-2022
     steps:
       - name: Winlibs
-        if: matrix.gcc
+        if: matrix.archive == 'mimalloc-win-gcc.7z'
         run: |
           C:/msys64/usr/bin/wget.exe -q https://github.com/brechtsanders/winlibs_mingw/releases/download/13.2.0posix-18.1.5-11.0.1-msvcrt-r8/winlibs-x86_64-posix-seh-gcc-13.2.0-mingw-w64msvcrt-11.0.1-r8.7z
           7z x winlibs-x86_64-posix-seh-gcc-13.2.0-mingw-w64msvcrt-11.0.1-r8.7z
           $env:CC="D:/a/prebuilds/prebuilds/mingw64/bin/gcc.exe"
           $env:CXX="D:/a/prebuilds/prebuilds/mingw64/bin/g++.exe"
           $env:FC="D:/a/prebuilds/prebuilds/mingw64/bin/gfortran.exe"
-      - name: Name
-        shell: powershell
-        run: |
-          if ($env:gcc -eq "ON") {
-            $env:ARCHIVE="mimalloc-win-gcc.7z"
-          } else {
-            $env:ARCHIVE="mimalloc-win.7z"
-          }
       - name: Compile
+        shell: bash
         run: |
           git clone --depth 1 https://github.com/microsoft/mimalloc.git
           mkdir mimalloc-install && mkdir build && cd build
-          if ($env:gcc -eq "ON") {
-            cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=D:/a/prebuilds/prebuilds/mimalloc-install ../mimalloc
-          } else {
-            cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=D:/a/prebuilds/prebuilds/mimalloc-install ../mimalloc
-          }
+          if [ ${{ matrix.archive }} == 'mimalloc-win-gcc.7z' ]; then
+            cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../mimalloc-install ../mimalloc
+          else
+            cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../mimalloc-install ../mimalloc
+          fi
           cmake --build . --target install --config Release --parallel 4
-          cd ../mimalloc-install && 7z a ../${{ env.ARCHIVE }} ./*
+          cd ../mimalloc-install && 7z a ../${{ matrix.archive }} ./*
       - name: Release
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ${{ env.ARCHIVE }}
-          asset_name: ${{ env.ARCHIVE }}
+          file: ${{ matrix.archive }}
+          asset_name: ${{ matrix.archive }}
           tag: latest
           overwrite: true
