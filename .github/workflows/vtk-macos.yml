@@ -6,7 +6,7 @@ jobs:
     steps:
       - name: Compile
         run: |
-          export FC=gfortran-11
+          export FC=gfortran-13
           brew install glfw glew
           wget -q https://www.vtk.org/files/release/9.4/VTK-9.4.0.tar.gz
           tar xf VTK-9.4.0.tar.gz && rm VTK-9.4.0.tar.gz
