@@ -7,18 +7,18 @@ jobs:
       - name: Compile
         run: |
           sudo apt-get install libglvnd-dev gcc gfortran g++ -y
-          wget -q https://www.vtk.org/files/release/9.4/VTK-9.4.0.tar.gz
-          tar xf VTK-9.4.0.tar.gz && rm VTK-9.4.0.tar.gz
+          wget -q https://www.vtk.org/files/release/9.4/VTK-9.4.1.tar.gz
+          tar xf VTK-9.4.1.tar.gz && rm VTK-9.4.1.tar.gz
           mkdir VTK-build && cd VTK-build
-          cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=../VTK-out ../VTK-9.4.0
+          cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=../VTK-out ../VTK-9.4.1
           cmake --build . --target install --config Release --parallel 4
           cd ../VTK-out
-          tar cvzf ../VTK-9.4.0-linux.tar.gz ./*
+          tar cvzf ../VTK-9.4.1-linux.tar.gz ./*
       - name: Release
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: VTK-9.4.0-linux.tar.gz
-          asset_name: VTK-9.4.0-linux.tar.gz
+          file: VTK-9.4.1-linux.tar.gz
+          asset_name: VTK-9.4.1-linux.tar.gz
           tag: latest
           overwrite: true
