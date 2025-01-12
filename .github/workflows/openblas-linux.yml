@@ -5,12 +5,12 @@ jobs:
     strategy:
       matrix:
         platform: [ amd64, aarch64 ]
-        file: [ OpenBLAS-0.3.28 ]
+        file: [ OpenBLAS-0.3.29 ]
     runs-on: ubuntu-22.04
     steps:
       - name: Download
         run: |
-          wget -q https://github.com/xianyi/OpenBLAS/releases/download/v0.3.28/${{ matrix.file }}.tar.gz
+          wget -q https://github.com/xianyi/OpenBLAS/releases/download/v0.3.29/${{ matrix.file }}.tar.gz
           tar xf ${{ matrix.file }}.tar.gz && rm ${{ matrix.file }}.tar.gz
       - name: Configure
         if: matrix.platform == 'aarch64'
