@@ -26,6 +26,7 @@ jobs:
           cmake -DCMAKE_BUILD_TYPE=Release -DTBB_TEST=OFF -DCMAKE_INSTALL_PREFIX=../tbb-install ../oneTBB
           cmake --build . --target install --config Release --parallel 4
           cd .. && 7z a ${{ env.ARCHIVE }} tbb-install
+          ls -halt
       - name: Release
         uses: svenstaro/upload-release-action@v2
         with:
