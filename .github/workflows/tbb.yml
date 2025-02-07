@@ -16,9 +16,9 @@ jobs:
       - name: Compile
         run: |
           if [ ${{ matrix.os }} == 'ubuntu-22.04' ]; then
-            echo "ARCHIVE=tbb-linux.tar.gz" >> "$GITHUB_ENV"
+            echo "ARCHIVE=tbb-linux.zip" >> "$GITHUB_ENV"
           else
-            echo "ARCHIVE=tbb-macos.tar.gz" >> "$GITHUB_ENV"
+            echo "ARCHIVE=tbb-macos.zip" >> "$GITHUB_ENV"
           fi
           git clone --depth 1 --branch v2022.0.0 https://github.com/oneapi-src/oneTBB.git
           mkdir tbb-install && mkdir build && cd build
