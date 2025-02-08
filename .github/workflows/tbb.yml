@@ -9,16 +9,13 @@ jobs:
         os: [ ubuntu-22.04, macos-13 ]
     runs-on: ${{ matrix.os }}
     steps:
-      - name: Configure
-        if: matrix.os == 'macos-13'
-        run: |
-          export CC=$(brew --prefix llvm@15)/bin/clang && export CXX=$(brew --prefix llvm@15)/bin/clang++
       - name: Compile
         run: |
           if [ ${{ matrix.os }} == 'ubuntu-22.04' ]; then
             export ARCHIVE=tbb-linux.7z
           else
             brew install p7zip
+            export CC=$(brew --prefix llvm@15)/bin/clang && export CXX=$(brew --prefix llvm@15)/bin/clang++
             export ARCHIVE=tbb-macos.7z
           fi
           echo "ARCHIVE=$ARCHIVE" >> "$GITHUB_ENV"
