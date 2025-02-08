@@ -15,7 +15,7 @@ jobs:
       - name: Compile
         shell: bash
         run: |
-          git clone --depth 1 https://github.com/microsoft/mimalloc.git
+          git clone --depth 1 --branch v2.1.9 https://github.com/microsoft/mimalloc.git
           mkdir mimalloc-install && mkdir build && cd build
           if [ ${{ matrix.archive }} == 'mimalloc-win-gcc.7z' ]; then
             export CC=$(pwd)/../mingw64/bin/gcc.exe && export CXX=$(pwd)/../mingw64/bin/g++.exe && export FC=$(pwd)/../mingw64/bin/gfortran.exe && cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../mimalloc-install ../mimalloc
