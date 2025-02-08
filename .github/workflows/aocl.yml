@@ -34,6 +34,8 @@ jobs:
           cd .. && rm -r build && mkdir build && cd build
           cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=../aocl-install ../aocl-utils
           cmake --build . --target install --config Release --parallel 4
+          cd .. && rm -r build && mkdir build && cd build
+          cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=../aocl-install -DENABLE_AMD_FLAGS=ON -DENABLE_AOCL_BLAS=ON -DAOCL_ROOT=../aocl-install -DLIBAOCLUTILS_INCLUDE_PATH=../aocl-install/include ../libflame
           cd .. && 7z a $ARCHIVE aocl-install
       - name: Release
         uses: svenstaro/upload-release-action@v2
