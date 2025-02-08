@@ -15,17 +15,17 @@ jobs:
           git clone --depth 1 --branch 5.0 https://github.com/amd/libflame.git
           git clone --depth 1 --branch 5.0 https://github.com/amd/aocl-utils.git
           if [ ${{ matrix.os }} == 'ubuntu-22.04' ]; then
-            export ARCHIVE=aocl-linux.7z
-            sed -i '~' 's/re.sub( /re.sub(r/g' blis/build/flatten-headers.py
-            sed -i '~' 's/re.search( /re.search(r/g' blis/build/flatten-headers.py
-            sed -i '~' 's/re.compile( /re.compile(r/g' blis/build/flatten-headers.py
-          else
-            brew install p7zip
-            export CC=gcc-13 && export CXX=g++-13 && export FC=gfortran-13
-            export ARCHIVE=aocl-macos.7z
             sed -i 's/re.sub( /re.sub(r/g' blis/build/flatten-headers.py
             sed -i 's/re.search( /re.search(r/g' blis/build/flatten-headers.py
             sed -i 's/re.compile( /re.compile(r/g' blis/build/flatten-headers.py
+            export ARCHIVE=aocl-linux.7z
+          else
+            sed -i '~' 's/re.sub( /re.sub(r/g' blis/build/flatten-headers.py
+            sed -i '~' 's/re.search( /re.search(r/g' blis/build/flatten-headers.py
+            sed -i '~' 's/re.compile( /re.compile(r/g' blis/build/flatten-headers.py
+            brew install p7zip
+            export CC=gcc-13 && export CXX=g++-13 && export FC=gfortran-13
+            export ARCHIVE=aocl-macos.7z
           fi
           echo "ARCHIVE=$ARCHIVE" >> "$GITHUB_ENV"
           mkdir aocl-install && mkdir build && cd build
