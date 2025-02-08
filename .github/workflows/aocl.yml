@@ -11,20 +11,23 @@ jobs:
     steps:
       - name: Compile
         run: |
+          git clone --depth 1 --branch 5.0 https://github.com/amd/blis.git
+          git clone --depth 1 --branch 5.0 https://github.com/amd/libflame.git
+          git clone --depth 1 --branch 5.0 https://github.com/amd/aocl-utils.git
           if [ ${{ matrix.os }} == 'ubuntu-22.04' ]; then
             export ARCHIVE=aocl-linux.7z
+            sed -i '~' 's/re.sub( /re.sub(r/g' blis/build/flatten-headers.py
+            sed -i '~' 's/re.search( /re.search(r/g' blis/build/flatten-headers.py
+            sed -i '~' 's/re.compile( /re.compile(r/g' blis/build/flatten-headers.py
           else
             brew install p7zip
             export CC=gcc-13 && export CXX=g++-13 && export FC=gfortran-13
             export ARCHIVE=aocl-macos.7z
+            sed -i 's/re.sub( /re.sub(r/g' blis/build/flatten-headers.py
+            sed -i 's/re.search( /re.search(r/g' blis/build/flatten-headers.py
+            sed -i 's/re.compile( /re.compile(r/g' blis/build/flatten-headers.py
           fi
           echo "ARCHIVE=$ARCHIVE" >> "$GITHUB_ENV"
-          git clone --depth 1 --branch 5.0 https://github.com/amd/blis.git
-          git clone --depth 1 --branch 5.0 https://github.com/amd/libflame.git
-          git clone --depth 1 --branch 5.0 https://github.com/amd/aocl-utils.git
-          sed -i 's/re.sub( /re.sub(r/g' blis/build/flatten-headers.py
-          sed -i 's/re.search( /re.search(r/g' blis/build/flatten-headers.py
-          sed -i 's/re.compile( /re.compile(r/g' blis/build/flatten-headers.py
           mkdir aocl-install && mkdir build && cd build
           cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DBLIS_CONFIG_FAMILY=amdzen -DENABLE_THREADING=openmp -DCMAKE_INSTALL_PREFIX=../aocl-install ../blis
           cmake --build . --target install --config Release --parallel 4
