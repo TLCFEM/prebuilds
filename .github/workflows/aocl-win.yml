@@ -1,15 +1,9 @@
 name: aocl-win
 on: workflow_dispatch
-env:
-  ARCHIVE: ''
 jobs:
   aocl-win:
     runs-on: windows-2022
     steps:
-      - name: CMD
-        uses: TheMrMilchmann/setup-msvc-dev@v3
-        with:
-          arch: x64
       - name: Compile
         run: |
           C:/msys64/usr/bin/wget.exe -q https://github.com/brechtsanders/winlibs_mingw/releases/download/13.2.0posix-18.1.5-11.0.1-msvcrt-r8/winlibs-x86_64-posix-seh-gcc-13.2.0-mingw-w64msvcrt-11.0.1-r8.7z
@@ -17,23 +11,21 @@ jobs:
           git clone --depth 1 --branch 5.0 https://github.com/amd/blis.git
           git clone --depth 1 --branch 5.0 https://github.com/amd/libflame.git
           git clone --depth 1 --branch 5.0 https://github.com/amd/aocl-utils.git
-          $Env:ARCHIVE="aocl-win-gcc.7z"
-          echo "ARCHIVE=aocl-win-gcc.7z" >> $env:GITHUB_ENV
           mkdir aocl-install && mkdir build && cd build
-          cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=D:/a/prebuilds/prebuilds/mingw64/bin/gcc.exe -DCMAKE_CXX_COMPILER=D:/a/prebuilds/prebuilds/mingw64/bin/g++.exe -DCMAKE_Fortran_COMPILER=D:/a/prebuilds/prebuilds/mingw64/bin/gfortran.exe -DBUILD_SHARED_LIBS=OFF -DBLIS_CONFIG_FAMILY=amdzen -DENABLE_THREADING=openmp -DCMAKE_INSTALL_PREFIX=../aocl-install ../blis
+          cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=D:/a/prebuilds/prebuilds/mingw64/bin/gcc.exe -DCMAKE_CXX_COMPILER=D:/a/prebuilds/prebuilds/mingw64/bin/g++.exe -DCMAKE_Fortran_COMPILER=D:/a/prebuilds/prebuilds/mingw64/bin/gfortran.exe -DBUILD_SHARED_LIBS=OFF -DBLIS_CONFIG_FAMILY=amdzen -DENABLE_THREADING=openmp -DCMAKE_INSTALL_PREFIX=D:/a/prebuilds/prebuilds/aocl-install ../blis
           cmake --build . --target install --config Release --parallel 4
           cd .. && rm -r build && mkdir build && cd build
-          cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=D:/a/prebuilds/prebuilds/mingw64/bin/gcc.exe -DCMAKE_CXX_COMPILER=D:/a/prebuilds/prebuilds/mingw64/bin/g++.exe -DCMAKE_Fortran_COMPILER=D:/a/prebuilds/prebuilds/mingw64/bin/gfortran.exe -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=../aocl-install ../aocl-utils
+          cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=D:/a/prebuilds/prebuilds/mingw64/bin/gcc.exe -DCMAKE_CXX_COMPILER=D:/a/prebuilds/prebuilds/mingw64/bin/g++.exe -DCMAKE_Fortran_COMPILER=D:/a/prebuilds/prebuilds/mingw64/bin/gfortran.exe -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=D:/a/prebuilds/prebuilds/aocl-install ../aocl-utils
           cmake --build . --target install --config Release --parallel 4
           cd .. && rm -r build && mkdir build && cd build
-          cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=D:/a/prebuilds/prebuilds/mingw64/bin/gcc.exe -DCMAKE_CXX_COMPILER=D:/a/prebuilds/prebuilds/mingw64/bin/g++.exe -DCMAKE_Fortran_COMPILER=D:/a/prebuilds/prebuilds/mingw64/bin/gfortran.exe -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=../aocl-install -DENABLE_AMD_FLAGS=ON -DENABLE_AOCL_BLAS=ON -DAOCL_ROOT=../aocl-install -DLIBAOCLUTILS_INCLUDE_PATH=../aocl-install/include ../libflame
+          cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=D:/a/prebuilds/prebuilds/mingw64/bin/gcc.exe -DCMAKE_CXX_COMPILER=D:/a/prebuilds/prebuilds/mingw64/bin/g++.exe -DCMAKE_Fortran_COMPILER=D:/a/prebuilds/prebuilds/mingw64/bin/gfortran.exe -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=D:/a/prebuilds/prebuilds/aocl-install -DENABLE_AMD_FLAGS=ON -DENABLE_AOCL_BLAS=ON -DAOCL_ROOT=D:/a/prebuilds/prebuilds/aocl-install -DLIBAOCLUTILS_INCLUDE_PATH=D:/a/prebuilds/prebuilds/aocl-install/include ../libflame
           cmake --build . --target install --config Release --parallel 4
-          cd .. && 7z a $ARCHIVE aocl-install
+          cd ../aocl-install/ && 7z a ../aocl-win-gcc.7z ./*
       - name: Release
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ${{ env.ARCHIVE }}
-          asset_name: ${{ env.ARCHIVE }}
+          file: aocl-win-gcc.7z
+          asset_name: aocl-win-gcc.7z
           tag: latest
           overwrite: true
