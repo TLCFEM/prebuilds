@@ -20,7 +20,7 @@ jobs:
           cd .. && rm -r build && mkdir build && cd build
           cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=D:/a/prebuilds/prebuilds/mingw64/bin/gcc.exe -DCMAKE_CXX_COMPILER=D:/a/prebuilds/prebuilds/mingw64/bin/g++.exe -DCMAKE_Fortran_COMPILER=D:/a/prebuilds/prebuilds/mingw64/bin/gfortran.exe -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=D:/a/prebuilds/prebuilds/aocl-install -DENABLE_AMD_FLAGS=ON -DENABLE_AOCL_BLAS=ON -DAOCL_ROOT=D:/a/prebuilds/prebuilds/aocl-install -DLIBAOCLUTILS_INCLUDE_PATH=D:/a/prebuilds/prebuilds/aocl-install/include ../libflame
           cmake --build . --target install --config Release --parallel 4
-          cd ../aocl-install/ && 7z a ../aocl-win-gcc.7z ./*
+          cd ../aocl-install/ && 7z a ../aocl-win-gcc.7z .
       - name: Release
         uses: svenstaro/upload-release-action@v2
         with:
