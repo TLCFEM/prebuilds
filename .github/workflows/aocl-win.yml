@@ -1,9 +1,9 @@
-name: aocl
+name: aocl-win
 on: workflow_dispatch
 env:
   ARCHIVE: ''
 jobs:
-  aocl:
+  aocl-win:
     runs-on: windows-2022
     steps:
       - name: CMD
