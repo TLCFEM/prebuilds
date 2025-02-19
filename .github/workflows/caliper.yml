@@ -3,7 +3,7 @@ on: workflow_dispatch
 env:
   ARCHIVE: ''
 jobs:
-  aocl:
+  caliper:
     strategy:
       matrix:
         os: [ ubuntu-22.04 ]
