@@ -1,0 +1,28 @@
+name: caliper
+on: workflow_dispatch
+env:
+  ARCHIVE: ''
+jobs:
+  aocl:
+    strategy:
+      matrix:
+        os: [ ubuntu-22.04 ]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Compile
+        run: |
+          git clone --depth 1 --branch v2.12.1 https://github.com/LLNL/Caliper.git
+          export ARCHIVE=caliper-linux.7z
+          echo "ARCHIVE=$ARCHIVE" >> "$GITHUB_ENV"
+          mkdir install && mkdir build && cd build
+          cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=../install ../Caliper
+          cmake --build . --target install --config Release --parallel 4
+          cd ../install/ && 7z a ../$ARCHIVE .
+      - name: Release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ${{ env.ARCHIVE }}
+          asset_name: ${{ env.ARCHIVE }}
+          tag: latest
+          overwrite: true
