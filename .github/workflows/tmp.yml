@@ -1,0 +1,15 @@
+name: tmp
+on: workflow_dispatch
+env:
+  ARCHIVE: ''
+jobs:
+  caliper:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: MKL
+        run: |
+          wget -O- https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB | gpg --dearmor | sudo tee /usr/share/keyrings/oneapi-archive-keyring.gpg > /dev/null
+          echo "deb [signed-by=/usr/share/keyrings/oneapi-archive-keyring.gpg] https://apt.repos.intel.com/oneapi all main" | sudo tee /etc/apt/sources.list.d/oneAPI.list
+          sudo apt-get update
+      - name: Debug
+        uses: mxschmitt/action-tmate@v3
