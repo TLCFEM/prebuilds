@@ -1,9 +1,7 @@
-name: tmp
+name: mkl-examples
 on: workflow_dispatch
-env:
-  ARCHIVE: ''
 jobs:
-  caliper:
+  mkl-examples:
     runs-on: ubuntu-22.04
     steps:
       - name: MKL
