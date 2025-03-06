@@ -18,8 +18,6 @@ jobs:
           cmake -DCMAKE_BUILD_TYPE=Release ..
           cmake --build . --config Release -- -j $(nproc)
           tar czvf ../../$ARCHIVE ./lib
-      - name: Debug
-        uses: mxschmitt/action-tmate@v3
       - name: Release
         uses: svenstaro/upload-release-action@v2
         with:
