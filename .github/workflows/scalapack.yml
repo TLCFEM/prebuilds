@@ -16,7 +16,7 @@ jobs:
           tar -xf v2.2.2.tar.gz
           cd scalapack-2.2.2
           mkdir build && cd build
-          cmake -DCMAKE_BUILD_TYPE=Release -DMPI_HOME=../../openmpi-linux
+          cmake -DCMAKE_BUILD_TYPE=Release -DMPI_HOME=../../openmpi-linux ..
           make -j
       - name: Debug
         uses: mxschmitt/action-tmate@v3
