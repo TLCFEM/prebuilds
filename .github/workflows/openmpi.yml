@@ -13,7 +13,7 @@ jobs:
           wget -q https://download.open-mpi.org/release/open-mpi/v5.0/openmpi-5.0.7.tar.bz2
           tar xf openmpi-5.0.7.tar.bz2
           cd openmpi-5.0.7
-          ./configure --prefix=openmpi-install
+          ./configure --prefix=$(pwd)/openmpi-install
           make -j$(nproc) && make install
           tar cvzf ../$ARCHIVE -C openmpi-install .
       - name: Release
