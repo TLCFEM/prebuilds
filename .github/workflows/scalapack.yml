@@ -1,0 +1,26 @@
+name: scalapack
+on: workflow_dispatch
+env:
+  ARCHIVE: ''
+jobs:
+  scalapack:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Compile
+        run: |
+          export ARCHIVE=scalapack-linux.tar.gz
+          echo "ARCHIVE=$ARCHIVE" >> "$GITHUB_ENV"
+          wget -q http://www.netlib.org/scalapack/scalapack_installer.tgz
+          tar xf scalapack_installer.tgz
+          cd scalapack_installer
+          python3 ./setup.py
+      - name: Debug
+        uses: mxschmitt/action-tmate@v3
+      - name: Release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ${{ env.ARCHIVE }}
+          asset_name: ${{ env.ARCHIVE }}
+          tag: latest
+          overwrite: true
