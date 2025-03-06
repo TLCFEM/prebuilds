@@ -8,14 +8,14 @@ jobs:
     steps:
       - name: Compile
         run: |
-          sudo apt-get install python3-autopep8 -y
           export ARCHIVE=scalapack-linux.tar.gz
           echo "ARCHIVE=$ARCHIVE" >> "$GITHUB_ENV"
           wget -q http://www.netlib.org/scalapack/scalapack_installer.tgz
           tar xf scalapack_installer.tgz
           cd scalapack_installer
-          find . -type f -name "*.py" -exec autopep8 --in-place --aggressive --aggressive {} +
-          python3 ./setup.py
+          # sudo apt-get install python3-autopep8 -y
+          # find . -type f -name "*.py" -exec autopep8 --in-place --aggressive --aggressive {} +
+          python ./setup.py
       - name: Debug
         uses: mxschmitt/action-tmate@v3
       - name: Release
