@@ -1,0 +1,26 @@
+name: openmpi
+on: workflow_dispatch
+env:
+  ARCHIVE: ''
+jobs:
+  openmpi:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Compile
+        run: |
+          export ARCHIVE=mimalloc-linux.tar.gz
+          echo "ARCHIVE=$ARCHIVE" >> "$GITHUB_ENV"
+          wget -q https://download.open-mpi.org/release/open-mpi/v5.0/openmpi-5.0.7.tar.bz2
+          tar xf openmpi-5.0.7.tar.bz2
+          cd openmpi-5.0.7
+          ./configure --prefix=openmpi-install
+          make -j$(nproc) && make install
+          tar cvzf ../$ARCHIVE -C openmpi-install .
+      - name: Release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ${{ env.ARCHIVE }}
+          asset_name: ${{ env.ARCHIVE }}
+          tag: latest
+          overwrite: true
