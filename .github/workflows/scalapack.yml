@@ -10,7 +10,7 @@ jobs:
         run: |
           export ARCHIVE=scalapack-linux.tar.gz
           echo "ARCHIVE=$ARCHIVE" >> "$GITHUB_ENV"
-          sudo apt-get install -y libopenmpi-dev
+          sudo apt-get install libopenmpi-dev
           wget -q https://github.com/Reference-ScaLAPACK/scalapack/archive/refs/tags/v2.2.2.tar.gz
           tar -xf v2.2.2.tar.gz
           cd scalapack-2.2.2

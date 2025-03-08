@@ -6,7 +6,7 @@ jobs:
     steps:
       - name: Compile
         run: |
-          sudo apt-get install libglvnd-dev gcc gfortran g++ -y
+          sudo apt-get install libglvnd-dev gcc gfortran g++
           wget -q https://www.vtk.org/files/release/9.4/VTK-9.4.1.tar.gz
           tar xf VTK-9.4.1.tar.gz && rm VTK-9.4.1.tar.gz
           mkdir VTK-build && cd VTK-build
