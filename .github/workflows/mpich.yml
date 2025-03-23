@@ -13,9 +13,9 @@ jobs:
           wget -q https://www.mpich.org/static/downloads/4.3.0/mpich-4.3.0.tar.gz
           tar xf mpich-4.3.0.tar.gz
           cd mpich-4.3.0
-          ./configure --prefix=$(pwd)/MPICH
+          ./configure --prefix=/MPICH
           make -j$(nproc) && make install
-          tar cvzf ../$ARCHIVE ./MPICH
+          tar cvzf ../$ARCHIVE /MPICH
       - name: Release
         uses: svenstaro/upload-release-action@v2
         with:

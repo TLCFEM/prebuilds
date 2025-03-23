@@ -13,9 +13,9 @@ jobs:
           wget -q https://download.open-mpi.org/release/open-mpi/v5.0/openmpi-5.0.7.tar.bz2
           tar xf openmpi-5.0.7.tar.bz2
           cd openmpi-5.0.7
-          ./configure --prefix=$(pwd)/OpenMPI
+          ./configure --prefix=/OpenMPI
           make -j$(nproc) && make install
-          tar cvzf ../$ARCHIVE ./OpenMPI
+          tar cvzf ../$ARCHIVE /OpenMPI
       - name: Release
         uses: svenstaro/upload-release-action@v2
         with:
