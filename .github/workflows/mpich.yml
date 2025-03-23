@@ -1,21 +1,21 @@
-name: openmpi
+name: mpich
 on: workflow_dispatch
 env:
   ARCHIVE: ""
 jobs:
-  openmpi:
+  mpich:
     runs-on: ubuntu-24.04
     steps:
       - name: Compile
         run: |
-          export ARCHIVE=OpenMPI-linux.tar.gz
+          export ARCHIVE=mpich-linux.tar.gz
           echo "ARCHIVE=$ARCHIVE" >> "$GITHUB_ENV"
-          wget -q https://download.open-mpi.org/release/open-mpi/v5.0/openmpi-5.0.7.tar.bz2
-          tar xf openmpi-5.0.7.tar.bz2
-          cd openmpi-5.0.7
-          ./configure --prefix=$(pwd)/OpenMPI
+          wget -q https://www.mpich.org/static/downloads/4.3.0/mpich-4.3.0.tar.gz
+          tar xf mpich-4.3.0.tar.gz
+          cd mpich-4.3.0
+          ./configure --prefix=$(pwd)/MPICH
           make -j$(nproc) && make install
-          tar cvzf ../$ARCHIVE ./OpenMPI
+          tar cvzf ../$ARCHIVE ./MPICH
       - name: Release
         uses: svenstaro/upload-release-action@v2
         with:
