@@ -14,7 +14,7 @@ jobs:
           tar xf mpich-4.3.0.tar.gz
           cd mpich-4.3.0
           ./configure --prefix=/MPICH
-          make -j$(nproc) && make install
+          make -j$(nproc) && sudo make install
           tar cvzf ../$ARCHIVE /MPICH
       - name: Release
         uses: svenstaro/upload-release-action@v2
