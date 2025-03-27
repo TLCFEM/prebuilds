@@ -1,5 +1,5 @@
 diff --git a/cmake/compilers/Clang.cmake b/cmake/compilers/Clang.cmake
-index dcd66634..c8f67d4a 100644
+index a0297faa..ad8c2d05 100644
 --- a/cmake/compilers/Clang.cmake
 +++ b/cmake/compilers/Clang.cmake
 @@ -66,7 +66,7 @@ endif()
@@ -12,7 +12,7 @@ index dcd66634..c8f67d4a 100644
  endif()
  
 diff --git a/cmake/compilers/GNU.cmake b/cmake/compilers/GNU.cmake
-index cf6d8bdb..8f4dbc7f 100644
+index da6b408a..d3e471b2 100644
 --- a/cmake/compilers/GNU.cmake
 +++ b/cmake/compilers/GNU.cmake
 @@ -36,6 +36,10 @@ if (NOT CMAKE_GENERATOR MATCHES "Ninja" AND NOT CMAKE_CXX_DEPENDS_USE_COMPILER)
