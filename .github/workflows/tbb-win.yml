@@ -6,7 +6,7 @@ jobs:
     steps:
       - name: Compile
         run: |
-          git clone --depth 1 --branch v2022.0.0 https://github.com/oneapi-src/oneTBB.git
+          git clone --depth 1 --branch v2022.1.0 https://github.com/oneapi-src/oneTBB.git
           mkdir build && cd build
           cmake -DCMAKE_BUILD_TYPE=Release -DTBB_TEST=OFF -DCMAKE_INSTALL_PREFIX=D:/a/prebuilds/prebuilds/tbb-win-vs ../oneTBB
           cmake --build . --target install --config Release --parallel 4
@@ -29,7 +29,7 @@ jobs:
         run: |
           C:/msys64/usr/bin/wget.exe -q https://github.com/brechtsanders/winlibs_mingw/releases/download/13.2.0posix-18.1.5-11.0.1-msvcrt-r8/winlibs-x86_64-posix-seh-gcc-13.2.0-mingw-w64msvcrt-11.0.1-r8.7z
           7z x winlibs-x86_64-posix-seh-gcc-13.2.0-mingw-w64msvcrt-11.0.1-r8.7z
-          git clone --depth 1 --branch v2022.0.0 https://github.com/oneapi-src/oneTBB.git
+          git clone --depth 1 --branch v2022.1.0 https://github.com/oneapi-src/oneTBB.git
           cd oneTBB && git apply ../tbb-mingw.patch && cd ..
           mkdir build && cd build
           cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=D:/a/prebuilds/prebuilds/mingw64/bin/gcc.exe -DCMAKE_CXX_COMPILER=D:/a/prebuilds/prebuilds/mingw64/bin/g++.exe -DCMAKE_Fortran_COMPILER=D:/a/prebuilds/prebuilds/mingw64/bin/gfortran.exe -DTBB_TEST=OFF -DCMAKE_INSTALL_PREFIX=D:/a/prebuilds/prebuilds/tbb-win-gcc ../oneTBB

@@ -6,12 +6,12 @@ jobs:
   tbb:
     strategy:
       matrix:
-        os: [ ubuntu-22.04, macos-13 ]
+        os: [ ubuntu-24.04, macos-13 ]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Compile
         run: |
-          if [ ${{ matrix.os }} == 'ubuntu-22.04' ]; then
+          if [ ${{ matrix.os }} == 'ubuntu-24.04' ]; then
             export ARCHIVE=tbb-linux.7z
           else
             brew install p7zip
@@ -19,7 +19,7 @@ jobs:
             export ARCHIVE=tbb-macos.7z
           fi
           echo "ARCHIVE=$ARCHIVE" >> "$GITHUB_ENV"
-          git clone --depth 1 --branch v2022.0.0 https://github.com/oneapi-src/oneTBB.git
+          git clone --depth 1 --branch v2022.1.0 https://github.com/oneapi-src/oneTBB.git
           mkdir tbb-install && mkdir build && cd build
           cmake -DCMAKE_BUILD_TYPE=Release -DTBB_TEST=OFF -DCMAKE_INSTALL_PREFIX=../tbb-install ../oneTBB
           cmake --build . --target install --config Release --parallel 4
