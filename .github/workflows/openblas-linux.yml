@@ -6,6 +6,7 @@ jobs:
       matrix:
         platform: [ amd64, aarch64 ]
         file: [ OpenBLAS-0.3.29 ]
+        indexing: [ 32, 64 ]
     runs-on: ubuntu-22.04
     steps:
       - name: Download
@@ -31,14 +32,17 @@ jobs:
           sed -i 's/# NO_SHARED = 1/NO_SHARED = 1/g' Makefile.rule
           sed -i 's/# NO_CBLAS = 1/NO_CBLAS = 1/g' Makefile.rule
           sed -i 's/# NO_LAPACKE = 1/NO_LAPACKE = 1/g' Makefile.rule
+          if [ "${{ matrix.indexing }}" == "32" ]; then
+            sed -i 's/# INTERFACE64 = 1/INTERFACE64 = 1/g' Makefile.rule
+          fi
           sed -i 's/# GEMM_MULTITHREAD_THRESHOLD = 4/GEMM_MULTITHREAD_THRESHOLD = 64/g' Makefile.rule
           make
-          tar czf ../${{ matrix.file }}-linux-${{ matrix.platform }}.tar.gz lib*.*
+          tar czf ../${{ matrix.file }}-linux-${{ matrix.platform }}-${{ matrix.indexing }}.tar.gz lib*.*
       - name: Release
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ${{ matrix.file }}-linux-${{ matrix.platform }}.tar.gz
-          asset_name: ${{ matrix.file }}-linux-${{ matrix.platform }}.tar.gz
+          file: ${{ matrix.file }}-linux-${{ matrix.platform }}-${{ matrix.indexing }}.tar.gz
+          asset_name: ${{ matrix.file }}-linux-${{ matrix.platform }}-${{ matrix.indexing }}.tar.gz
           tag: latest
           overwrite: true
