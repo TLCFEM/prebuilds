@@ -6,12 +6,12 @@ jobs:
   tbb:
     strategy:
       matrix:
-        os: [ ubuntu-24.04, macos-13 ]
+        os: [ ubuntu-22.04, macos-13 ]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Compile
         run: |
-          if [ ${{ matrix.os }} == 'ubuntu-24.04' ]; then
+          if [ ${{ matrix.os }} == 'ubuntu-22.04' ]; then
             export ARCHIVE=tbb-linux.7z
           else
             brew install p7zip
