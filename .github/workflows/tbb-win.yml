@@ -32,7 +32,7 @@ jobs:
           git clone --depth 1 --branch v2022.1.0 https://github.com/oneapi-src/oneTBB.git
           cd oneTBB && git apply ../tbb-mingw.patch && cd ..
           mkdir build && cd build
-          cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=D:/a/prebuilds/prebuilds/mingw64/bin/gcc.exe -DCMAKE_CXX_COMPILER=D:/a/prebuilds/prebuilds/mingw64/bin/g++.exe -DCMAKE_Fortran_COMPILER=D:/a/prebuilds/prebuilds/mingw64/bin/gfortran.exe -DTBB_TEST=OFF -DCMAKE_INSTALL_PREFIX=D:/a/prebuilds/prebuilds/tbb-win-gcc ../oneTBB
+          cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=D:/a/prebuilds/prebuilds/mingw64/bin/gcc.exe -DCMAKE_CXX_COMPILER=D:/a/prebuilds/prebuilds/mingw64/bin/g++.exe -DCMAKE_Fortran_COMPILER=D:/a/prebuilds/prebuilds/mingw64/bin/gfortran.exe -DTBB_TEST=OFF -DCMAKE_INSTALL_PREFIX=D:/a/prebuilds/prebuilds/tbb-win-gcc -DCMAKE_CXX_FLAGS="-static-libgcc -static-libstdc++" ../oneTBB
           cmake --build . --target install --config Release --parallel 4
           cd ../tbb-win-gcc
           7z a ../tbb-win-gcc.7z ./*
