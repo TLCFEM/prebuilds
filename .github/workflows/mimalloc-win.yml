@@ -21,7 +21,6 @@ jobs:
             export CC=$(pwd)/../mingw64/bin/gcc.exe && \
             export CXX=$(pwd)/../mingw64/bin/g++.exe && \
             export FC=$(pwd)/../mingw64/bin/gfortran.exe && \
-            export LDFLAGS="-static-libgfortran -static-libquadmath -static-libstdc++ -static-libgcc" && \
             cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../mimalloc-install ../mimalloc
           else
             cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../mimalloc-install ../mimalloc
