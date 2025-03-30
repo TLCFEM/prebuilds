@@ -32,7 +32,7 @@ jobs:
           git clone --depth 1 --branch v2022.1.0 https://github.com/oneapi-src/oneTBB.git
           cd oneTBB && git apply ../tbb-mingw.patch && cd ..
           mkdir build && cd build
-          $Env:LDFLAGS="-static-libgfortran -static-libquadmath -static-libstdc++ -static-libgcc" `
+          $Env:LDFLAGS="-static-libgfortran -static-libquadmath -static-libstdc++ -static-libgcc"
           cmake -G "MinGW Makefiles" `
           -DCMAKE_BUILD_TYPE=Release `
           -DCMAKE_C_COMPILER=D:/a/prebuilds/prebuilds/mingw64/bin/gcc.exe `
