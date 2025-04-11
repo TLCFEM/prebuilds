@@ -2,7 +2,7 @@ name: openblas-macos
 on: workflow_dispatch
 jobs:
   openblas-macos:
-    runs-on: macos-15-large
+    runs-on: macos-13
     steps:
       - name: Compile
         run: |
@@ -28,7 +28,7 @@ jobs:
           tag: latest
           overwrite: true
   openblas-macos-arm64:
-    runs-on: macos-15
+    runs-on: macos-14
     steps:
       - name: Compile
         run: |

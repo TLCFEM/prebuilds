@@ -2,12 +2,10 @@ name: vtk-macos
 on: workflow_dispatch
 jobs:
   vtk-macos:
-    runs-on: macos-15-large
+    runs-on: macos-13
     steps:
       - name: Compile
         run: |
-          export CC=$(brew --prefix llvm@18)/bin/clang
-          export CXX=$(brew --prefix llvm@18)/bin/clang++
           export FC=gfortran-13
           brew install glfw glew
           wget -q https://www.vtk.org/files/release/9.4/VTK-9.4.2.tar.gz
