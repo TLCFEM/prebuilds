@@ -17,9 +17,7 @@ jobs:
         run: |
           find . -name '*.cmake' -exec sed -i 's/--target install -j/--target install/' {} +
           find . -name '*.cmake' -exec sed -i 's/--config ${CMAKE_BUILD_TYPE} -j/--config ${CMAKE_BUILD_TYPE}/' {} +
-          cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF \
-          -DENABLE_ILP64=OFF -DENABLE_AOCL_BLAS=ON -DENABLE_AOCL_UTILS=ON \
-          -DENABLE_AOCL_LAPACK=ON -DENABLE_MULTITHREADING=ON -DCMAKE_INSTALL_PREFIX=aocl-install
+          cmake --preset aocl-linux-make-lp-ga-gcc-config -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DENABLE_AOCL_COMPRESSION=OFF -DENABLE_AOCL_CRYPTO=OFF -DCMAKE_INSTALL_PREFIX=aocl-install --fresh
           cmake --build build --config Release --target install --parallel
       - name: Debug
         uses: mxschmitt/action-tmate@v3
