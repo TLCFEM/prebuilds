@@ -17,11 +17,11 @@ jobs:
         run: |
           find . -name '*.cmake' -exec sed -i 's/--target install -j/--target install/' {} +
           find . -name '*.cmake' -exec sed -i 's/--config ${CMAKE_BUILD_TYPE} -j/--config ${CMAKE_BUILD_TYPE}/' {} +
-          cmake --preset aocl-win-msvc-lp-ga-config \
+          cmake --preset aocl-win-ninja-lp-ga-config \
           -DCMAKE_BUILD_TYPE=Release \
-          -DCMAKE_C_COMPILER="" \
-          -DCMAKE_CXX_COMPILER="" \
-          -DCMAKE_Fortran_COMPILER="" \
+          -DCMAKE_C_COMPILER=D:/a/prebuilds/prebuilds/mingw64/bin/gcc.exe \
+          -DCMAKE_CXX_COMPILER=D:/a/prebuilds/prebuilds/mingw64/bin/g++.exe \
+          -DCMAKE_Fortran_COMPILER=D:/a/prebuilds/prebuilds/mingw64/bin/gfortran.exe \
           -DBUILD_SHARED_LIBS=OFF \
           -DENABLE_CBLAS=OFF \
           -DENABLE_AOCL_COMPRESSION=OFF \
@@ -30,12 +30,12 @@ jobs:
           -DOpenMP_libomp_LIBRARY="" \
           --fresh
           cmake --build build --config Release --target install --parallel
-          cd aocl-install && 7z a ../aocl-win-vs.7z .
+          cd aocl-install && 7z a ../aocl-win.7z .
       - name: Release
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: aocl-win-vs.7z
-          asset_name: aocl-win-vs.7z
+          file: aocl-win.7z
+          asset_name: aocl-win.7z
           tag: latest
           overwrite: true
