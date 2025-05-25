@@ -28,6 +28,7 @@ jobs:
           -DENABLE_AOCL_COMPRESSION=OFF \
           -DENABLE_AOCL_CRYPTO=OFF \
           -DCMAKE_INSTALL_PREFIX=aocl-install \
+          -DOpenMP_libomp_LIBRARY="" \
           --fresh
           cmake --build build --config Release --target install --parallel
           cd aocl-install && 7z a ../aocl-win-gcc.7z .
