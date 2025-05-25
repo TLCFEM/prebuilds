@@ -19,6 +19,9 @@ jobs:
           find . -name '*.cmake' -exec sed -i 's/--config ${CMAKE_BUILD_TYPE} -j/--config ${CMAKE_BUILD_TYPE}/' {} +
           cmake --preset aocl-win-msvc-lp-ga-config \
           -DCMAKE_BUILD_TYPE=Release \
+          -DCMAKE_C_COMPILER="" \
+          -DCMAKE_CXX_COMPILER="" \
+          -DCMAKE_Fortran_COMPILER="" \
           -DBUILD_SHARED_LIBS=OFF \
           -DENABLE_CBLAS=OFF \
           -DENABLE_AOCL_COMPRESSION=OFF \
