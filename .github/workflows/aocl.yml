@@ -6,25 +6,31 @@ jobs:
   aocl:
     strategy:
       matrix:
-        os: [ ubuntu-22.04 ]
+        os: [ ubuntu-22.04, ubuntu-22.04-arm ]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Clone
         uses: actions/checkout@v4
         with:
           repository: amd/aocl
+      - name: Arch amd64
+        if: ${{ !contains(matrix.os, 'arm') }}
+        run: echo "ARTIFACT=aocl-linux-amd64.tar.gz" >> "$GITHUB_ENV"
+      - name: Arch arm64
+        if: ${{ contains(matrix.os, 'arm') }}
+        run: echo "ARTIFACT=aocl-linux-arm64.tar.gz" >> "$GITHUB_ENV"
       - name: Patch
         run: |
           find . -name '*.cmake' -exec sed -i 's/--target install -j/--target install/' {} +
           find . -name '*.cmake' -exec sed -i 's/--config ${CMAKE_BUILD_TYPE} -j/--config ${CMAKE_BUILD_TYPE}/' {} +
           cmake --preset aocl-linux-make-lp-ga-gcc-config -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DENABLE_CBLAS=ON -DENABLE_AOCL_COMPRESSION=OFF -DENABLE_AOCL_CRYPTO=OFF -DENABLE_AOCL_SPARSE=OFF -DCMAKE_INSTALL_PREFIX=aocl-install --fresh
           cmake --build build --config Release --target install --parallel
-          tar cvzf aocl-linux.tar.gz -C aocl-install .
+          tar cvzf ${{ env.ARCHIVE }} -C aocl-install .
       - name: Release
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: aocl-linux.tar.gz
-          asset_name: aocl-linux.tar.gz
+          file: ${{ env.ARCHIVE }}
+          asset_name: ${{ env.ARCHIVE }}
           tag: latest
           overwrite: true
