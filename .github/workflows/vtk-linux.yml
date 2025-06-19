@@ -2,6 +2,9 @@ name: vtk-linux
 on: workflow_dispatch
 jobs:
   vtk-amd64:
+    strategy:
+      matrix:
+        type: [ Release, Debug ]
     runs-on: ubuntu-22.04
     steps:
       - name: Compile
@@ -10,15 +13,15 @@ jobs:
           wget -q https://www.vtk.org/files/release/9.4/VTK-9.4.2.tar.gz
           tar xf VTK-9.4.2.tar.gz && rm VTK-9.4.2.tar.gz
           mkdir VTK-build && cd VTK-build
-          cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=../VTK-out ../VTK-9.4.2
-          cmake --build . --target install --config Release --parallel 4
+          cmake -DCMAKE_BUILD_TYPE=${{ matrix.type }} -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=../VTK-out ../VTK-9.4.2
+          cmake --build . --target install --config ${{ matrix.type }} --parallel 4
           cd ../VTK-out
-          tar cvzf ../VTK-9.4.2-linux.tar.gz ./*
+          tar cvzf ../VTK-9.4.2-linux-${{ matrix.type }}.tar.gz ./*
       - name: Release
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: VTK-9.4.2-linux.tar.gz
-          asset_name: VTK-9.4.2-linux.tar.gz
+          file: VTK-9.4.2-linux-${{ matrix.type }}.tar.gz
+          asset_name: VTK-9.4.2-linux-${{ matrix.type }}.tar.gz
           tag: latest
           overwrite: true
