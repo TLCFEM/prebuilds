@@ -5,25 +5,25 @@ jobs:
     strategy:
       matrix:
         platform: [ amd64, aarch64 ]
-        file: [ OpenBLAS-0.3.29 ]
+        version: [ 0.3.30 ]
         indexing: [ 32, 64 ]
     runs-on: ubuntu-22.04
     steps:
       - name: Download
         run: |
-          wget -q https://github.com/xianyi/OpenBLAS/releases/download/v0.3.29/${{ matrix.file }}.tar.gz
-          tar xf ${{ matrix.file }}.tar.gz && rm ${{ matrix.file }}.tar.gz
+          wget -q https://github.com/xianyi/OpenBLAS/releases/download/v${{ matrix.version }}/OpenBLAS-${{ matrix.version }}.tar.gz
+          tar xf OpenBLAS-${{ matrix.version }}.tar.gz && rm OpenBLAS-${{ matrix.version }}.tar.gz
       - name: Configure
         if: matrix.platform == 'aarch64'
         run: |
           sudo apt-get install gcc-aarch64-linux-gnu g++-aarch64-linux-gnu gfortran-aarch64-linux-gnu libc6-dev-arm64-cross
-          cd ${{ matrix.file }}
+          cd OpenBLAS-${{ matrix.version }}
           sed -i 's/# CC = aarch64-linux-gnu-gcc/CC = aarch64-linux-gnu-gcc/g' Makefile.rule
           sed -i 's/# FC = aarch64-linux-gnu-gfortran/FC = aarch64-linux-gnu-gfortran/g' Makefile.rule
           sed -i 's/# HOSTCC = gcc/HOSTCC = gcc/g' Makefile.rule
       - name: Compile
         run: |
-          cd ${{ matrix.file }}
+          cd OpenBLAS-${{ matrix.version }}
           sed -i 's/# DYNAMIC_ARCH = 1/DYNAMIC_ARCH = 1/g' Makefile.rule
           sed -i 's/# BINARY=64/BINARY=64/g' Makefile.rule
           sed -i 's/# USE_THREAD = 0/USE_THREAD = 1/g' Makefile.rule
@@ -37,12 +37,12 @@ jobs:
           fi
           sed -i 's/# GEMM_MULTITHREAD_THRESHOLD = 4/GEMM_MULTITHREAD_THRESHOLD = 64/g' Makefile.rule
           make
-          tar czf ../${{ matrix.file }}-linux-${{ matrix.platform }}-${{ matrix.indexing }}.tar.gz lib*.*
+          tar czf ../OpenBLAS-${{ matrix.version }}-linux-${{ matrix.platform }}-${{ matrix.indexing }}.tar.gz lib*.*
       - name: Release
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ${{ matrix.file }}-linux-${{ matrix.platform }}-${{ matrix.indexing }}.tar.gz
-          asset_name: ${{ matrix.file }}-linux-${{ matrix.platform }}-${{ matrix.indexing }}.tar.gz
+          file: OpenBLAS-${{ matrix.version }}-linux-${{ matrix.platform }}-${{ matrix.indexing }}.tar.gz
+          asset_name: OpenBLAS-${{ matrix.version }}-linux-${{ matrix.platform }}-${{ matrix.indexing }}.tar.gz
           tag: latest
           overwrite: true

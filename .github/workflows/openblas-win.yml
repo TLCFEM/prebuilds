@@ -2,6 +2,9 @@ name: openblas-win
 on: workflow_dispatch
 jobs:
   openblas-win:
+    strategy:
+      matrix:
+        version: [ 0.3.30 ]
     runs-on: windows-2022
     steps:
       - name: CMD
@@ -12,8 +15,8 @@ jobs:
         run: |
           C:/msys64/usr/bin/wget.exe -q https://github.com/brechtsanders/winlibs_mingw/releases/download/13.3.0posix-11.0.1-ucrt-r1/winlibs-x86_64-posix-seh-gcc-13.3.0-mingw-w64ucrt-11.0.1-r1.7z
           7z x winlibs-x86_64-posix-seh-gcc-13.3.0-mingw-w64ucrt-11.0.1-r1.7z
-          C:/msys64/usr/bin/wget.exe -q https://github.com/xianyi/OpenBLAS/releases/download/v0.3.29/OpenBLAS-0.3.29.zip
-          7z x OpenBLAS-0.3.29.zip && cd OpenBLAS-0.3.29
+          C:/msys64/usr/bin/wget.exe -q https://github.com/xianyi/OpenBLAS/releases/download/v${{ matrix.version }}/OpenBLAS-${{ matrix.version }}.zip
+          7z x OpenBLAS-${{ matrix.version }}.zip && cd OpenBLAS-${{ matrix.version }}
           C:/msys64/usr/bin/sed.exe -i "s@# CC = gcc@CC = D:/a/prebuilds/prebuilds/mingw64/bin/gcc.exe@g" Makefile.rule
           C:/msys64/usr/bin/sed.exe -i "s@# FC = gfortran@FC = D:/a/prebuilds/prebuilds/mingw64/bin/gfortran.exe@g" Makefile.rule
           C:/msys64/usr/bin/sed.exe -i 's/# DYNAMIC_ARCH = 1/DYNAMIC_ARCH = 1/g' Makefile.rule
@@ -26,12 +29,12 @@ jobs:
           C:/msys64/usr/bin/sed.exe -i 's/# GEMM_MULTITHREAD_THRESHOLD = 4/GEMM_MULTITHREAD_THRESHOLD = 64/g' Makefile.rule
           make
           cd exports && lib.exe /def:libopenblas.def /out:libopenblas.lib /machine:x64 && cd ..
-          7z a ../OpenBLAS-0.3.29-win.7z libopenblas.* exports/*.*
+          7z a ../OpenBLAS-${{ matrix.version }}-win.7z libopenblas.* exports/*.*
       - name: Release
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: OpenBLAS-0.3.29-win.7z
-          asset_name: OpenBLAS-0.3.29-win.7z
+          file: OpenBLAS-${{ matrix.version }}-win.7z
+          asset_name: OpenBLAS-${{ matrix.version }}-win.7z
           tag: latest
           overwrite: true
