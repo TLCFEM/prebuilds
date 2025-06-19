@@ -1,24 +1,26 @@
 name: vtk-win
 on: workflow_dispatch
+env:
+  version: "9.4.2"
 jobs:
   vtk-win-vs:
     runs-on: windows-2022
     steps:
       - name: Compile
         run: |
-          C:/msys64/usr/bin/wget.exe -q https://www.vtk.org/files/release/9.4/VTK-9.4.2.tar.gz
-          tar xf VTK-9.4.2.tar.gz && del VTK-9.4.2.tar.gz
+          C:/msys64/usr/bin/wget.exe -q https://www.vtk.org/files/release/9.4/VTK-${{ env.version }}.tar.gz
+          tar xf VTK-${{ env.version }}.tar.gz && del VTK-${{ env.version }}.tar.gz
           mkdir VTK-build && mkdir VTK-out && cd VTK-build
-          cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=D:/a/prebuilds/prebuilds/VTK-out ../VTK-9.4.2
+          cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=D:/a/prebuilds/prebuilds/VTK-out ../VTK-${{ env.version }}
           cmake --build . --target install --config Release --parallel 4
           cd ../VTK-out
-          7z a ../VTK-9.4.2-win.7z ./*
+          7z a ../VTK-${{ env.version }}-win.7z ./*
       - name: Release
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: VTK-9.4.2-win.7z
-          asset_name: VTK-9.4.2-win.7z
+          file: VTK-${{ env.version }}-win.7z
+          asset_name: VTK-${{ env.version }}-win.7z
           tag: latest
           overwrite: true
   vtk-win-gcc:
@@ -28,8 +30,8 @@ jobs:
         run: |
           C:/msys64/usr/bin/wget.exe -q https://github.com/brechtsanders/winlibs_mingw/releases/download/13.3.0posix-11.0.1-ucrt-r1/winlibs-x86_64-posix-seh-gcc-13.3.0-mingw-w64ucrt-11.0.1-r1.7z
           7z x winlibs-x86_64-posix-seh-gcc-13.3.0-mingw-w64ucrt-11.0.1-r1.7z
-          C:/msys64/usr/bin/wget.exe -q https://www.vtk.org/files/release/9.4/VTK-9.4.2.tar.gz
-          tar xf VTK-9.4.2.tar.gz && del VTK-9.4.2.tar.gz
+          C:/msys64/usr/bin/wget.exe -q https://www.vtk.org/files/release/9.4/VTK-${{ env.version }}.tar.gz
+          tar xf VTK-${{ env.version }}.tar.gz && del VTK-${{ env.version }}.tar.gz
           mkdir VTK-build && mkdir VTK-out && cd VTK-build
           cmake -G "MinGW Makefiles" `
           -DBUILD_SHARED_LIBS=OFF `
@@ -38,15 +40,15 @@ jobs:
           -DCMAKE_CXX_COMPILER=D:/a/prebuilds/prebuilds/mingw64/bin/g++.exe `
           -DCMAKE_Fortran_COMPILER=D:/a/prebuilds/prebuilds/mingw64/bin/gfortran.exe `
           -DCMAKE_INSTALL_PREFIX=D:/a/prebuilds/prebuilds/VTK-out `
-          ../VTK-9.4.2
+          ../VTK-${{ env.version }}
           cmake --build . --target install --config Release --parallel 4
           cd ../VTK-out
-          7z a ../VTK-9.4.2-win-gcc.7z ./*
+          7z a ../VTK-${{ env.version }}-win-gcc.7z ./*
       - name: Release
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: VTK-9.4.2-win-gcc.7z
-          asset_name: VTK-9.4.2-win-gcc.7z
+          file: VTK-${{ env.version }}-win-gcc.7z
+          asset_name: VTK-${{ env.version }}-win-gcc.7z
           tag: latest
           overwrite: true
