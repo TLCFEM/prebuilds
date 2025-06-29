@@ -26,6 +26,6 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: python/dist/latexminted.exe
-          asset_name: python/dist/latexminted.exe
+          asset_name: latexminted.exe
           tag: latest
           overwrite: true
