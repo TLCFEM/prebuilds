@@ -1,0 +1,31 @@
+name: latexminted-win
+on: workflow_dispatch
+jobs:
+  latexminted-win:
+    runs-on: windows-2022
+    steps:
+      - name: Clone
+        uses: actions/checkout@v4
+        with:
+          repository: gpoore/minted
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.11
+          cache: 'pip'
+      - name: Compile
+        run: |
+          cd python
+          pip install . pyinstaller
+          echo 'from latexminted.cmdline import main' > runner.py
+          echo 'if __name__ == "__main__":' >> runner.py
+          echo '    main()' >> runner.py
+          pyinstaller --onefile --name latexminted runner.py
+      - name: Release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: python/dist/latexminted.exe
+          asset_name: python/dist/latexminted.exe
+          tag: latest
+          overwrite: true
