@@ -1,42 +1,41 @@
 diff --git a/cmake/compilers/Clang.cmake b/cmake/compilers/Clang.cmake
-index 4b1d85b4..1072cd01 100644
+index a0297faa..ad8c2d05 100644
 --- a/cmake/compilers/Clang.cmake
 +++ b/cmake/compilers/Clang.cmake
-@@ -70,7 +70,7 @@ if (NOT APPLE AND NOT ANDROID_PLATFORM AND NOT CMAKE_SYSTEM_PROCESSOR MATCHES "a
- endif()
+@@ -66,7 +66,7 @@ endif()
+ set(TBB_COMMON_COMPILE_FLAGS ${TBB_COMMON_COMPILE_FLAGS} -Wformat -Wformat-security -Werror=format-security -fPIC $<$<NOT:$<BOOL:${EMSCRIPTEN}>>:-fstack-protector-strong>)
  
  # -z switch is not supported on MacOS
 -if (NOT APPLE)
 +if (NOT APPLE AND NOT MINGW)
-     set(TBB_LIB_LINK_FLAGS ${TBB_LIB_LINK_FLAGS} -Wl,-z,relro,-z,now,-z,noexecstack)
+     set(TBB_LIB_LINK_FLAGS ${TBB_LIB_LINK_FLAGS} -Wl,-z,relro,-z,now)
  endif()
  
 diff --git a/cmake/compilers/GNU.cmake b/cmake/compilers/GNU.cmake
-index 4f552091..4c660afc 100644
+index da6b408a..d3e471b2 100644
 --- a/cmake/compilers/GNU.cmake
 +++ b/cmake/compilers/GNU.cmake
-@@ -35,7 +35,10 @@ if (NOT CMAKE_GENERATOR MATCHES "Ninja" AND NOT CMAKE_CXX_DEPENDS_USE_COMPILER)
-     set(TBB_MMD_FLAG -MMD)
+@@ -36,6 +36,10 @@ if (NOT CMAKE_GENERATOR MATCHES "Ninja" AND NOT CMAKE_CXX_DEPENDS_USE_COMPILER)
  endif()
  
--
-+if (MINGW)
-+    set(_tbb_gnu_asm_major_version "2")
-+    set(_tbb_gnu_asm_minor_version "43")
-+else ()
+ 
++if(MINGW)
++  set(_tbb_gnu_asm_major_version "2")
++  set(_tbb_gnu_asm_minor_version "43")
++else()
  # Binutils < 2.31.1 do not support the tpause instruction. When compiling with
  # a modern version of GCC (supporting it) but relying on an outdated assembler,
  # will result in an error reporting "no such instruction: tpause".
-@@ -67,6 +70,7 @@ if ("${ASSEMBLER_VERSION_LINE}" MATCHES "GNU assembler version")
-     set(TBB_COMMON_COMPILE_FLAGS ${TBB_COMMON_COMPILE_FLAGS} "-D__TBB_GNU_ASM_VERSION=${_tbb_gnu_asm_version_number}")
-     message(STATUS "GNU Assembler version: ${_tbb_gnu_asm_major_version}.${_tbb_gnu_asm_minor_version}  (${_tbb_gnu_asm_version_number})")
- endif()
+@@ -61,6 +65,7 @@ unset(ASSEMBLER_VERSION_LINE_OUT)
+ unset(ASSEMBLER_VERSION_LINE_ERR)
+ unset(ASSEMBLER_VERSION_LINE)
+ message(TRACE "Extracted GNU assembler version: major=${_tbb_gnu_asm_major_version} minor=${_tbb_gnu_asm_minor_version}")
 +endif()
  
- # Enable Intel(R) Transactional Synchronization Extensions (-mrtm) and WAITPKG instructions support (-mwaitpkg) on relevant processors
- if (CMAKE_SYSTEM_PROCESSOR MATCHES "(AMD64|amd64|i.86|x86)" AND NOT EMSCRIPTEN)
+ math(EXPR _tbb_gnu_asm_version_number  "${_tbb_gnu_asm_major_version} * 1000 + ${_tbb_gnu_asm_minor_version}")
+ set(TBB_COMMON_COMPILE_FLAGS ${TBB_COMMON_COMPILE_FLAGS} "-D__TBB_GNU_ASM_VERSION=${_tbb_gnu_asm_version_number}")
 diff --git a/include/oneapi/tbb/profiling.h b/include/oneapi/tbb/profiling.h
-index 412b5a35..92466bb4 100644
+index 412b5a35..fccaba5f 100644
 --- a/include/oneapi/tbb/profiling.h
 +++ b/include/oneapi/tbb/profiling.h
 @@ -132,7 +132,7 @@ namespace d1 {
@@ -44,7 +43,7 @@ index 412b5a35..92466bb4 100644
      }
  
 -#if (_WIN32||_WIN64) && !__MINGW32__
-+#if (_WIN32 || _WIN64)
++#if (_WIN32||_WIN64)
      inline void itt_set_sync_name(void* obj, const wchar_t* name) {
          r1::itt_set_sync_name(obj, name);
      }
