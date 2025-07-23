@@ -28,6 +28,6 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: dist/appimage-builder-${{ matrix.os }}*
-          asset_name: appimage-builder-${{ matrix.os }}
+          file_glob: true
           tag: latest
           overwrite: true
