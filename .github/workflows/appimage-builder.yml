@@ -1,7 +1,7 @@
 name: appimage-builder
 on: workflow_dispatch
 jobs:
-  appimage-builder-win:
+  appimage-builder-linux:
     runs-on: ubuntu-latest
     steps:
       - name: Clone
