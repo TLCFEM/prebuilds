@@ -1,0 +1,30 @@
+name: appimage-builder
+on: workflow_dispatch
+jobs:
+  appimage-builder-win:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone
+        uses: actions/checkout@v4
+        with:
+          repository: Frederic98/appimage-builder
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.11
+          cache: 'pip'
+      - name: Compile
+        run: |
+          pip install . pyinstaller
+          echo 'from appimagebuilder.__main__ import __main__ as main' > runner.py
+          echo 'if __name__ == "__main__":' >> runner.py
+          echo '    main()' >> runner.py
+          pyinstaller --onefile --name appimage-builder runner.py
+      - name: Release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: dist/appimage-builder
+          asset_name: appimage-builder
+          tag: latest
+          overwrite: true
