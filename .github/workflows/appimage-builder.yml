@@ -18,7 +18,7 @@ jobs:
           cache: 'pip'
       - name: Compile
         run: |
-          python3 -c 'f="appimage-builder/appimagebuilder/modules/prime/appimage_primer.py"; d=open(f).read().replace("\"xz\"", "\"zlib\""); open(f, "w").write(d)'
+          python3 -c 'f="appimagebuilder/modules/prime/appimage_primer.py"; d=open(f).read().replace("\"xz\"", "\"zlib\""); open(f, "w").write(d)'
           pip install . pyinstaller
           echo 'from appimagebuilder.__main__ import __main__ as main' > runner.py
           echo 'if __name__ == "__main__":' >> runner.py
