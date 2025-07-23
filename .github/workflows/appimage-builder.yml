@@ -1,8 +1,11 @@
 name: appimage-builder
 on: workflow_dispatch
 jobs:
-  appimage-builder-linux:
-    runs-on: ubuntu-latest
+  appimage-builder:
+    strategy:
+      matrix:
+        os: [ ubuntu-latest, macos-13, macos-14, windows-latest ]
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Clone
         uses: actions/checkout@v4
@@ -19,12 +22,12 @@ jobs:
           echo 'from appimagebuilder.__main__ import __main__ as main' > runner.py
           echo 'if __name__ == "__main__":' >> runner.py
           echo '    main()' >> runner.py
-          pyinstaller --onefile --name appimage-builder runner.py
+          pyinstaller --onefile --name appimage-builder-${{ matrix.os }} runner.py
       - name: Release
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: dist/appimage-builder
-          asset_name: appimage-builder
+          file: dist/appimage-builder-${{ matrix.os }}
+          asset_name: appimage-builder-${{ matrix.os }}
           tag: latest
           overwrite: true
