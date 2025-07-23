@@ -4,14 +4,14 @@ jobs:
   vtk-macos:
     strategy:
       matrix:
-        version: [ 9.4.2 ]
+        version: [ 9.5.0 ]
     runs-on: macos-13
     steps:
       - name: Compile
         run: |
           export FC=gfortran-13
           brew install glfw glew
-          wget -q https://www.vtk.org/files/release/9.4/VTK-${{ matrix.version }}.tar.gz
+          wget -q https://www.vtk.org/files/release/9.5/VTK-${{ matrix.version }}.tar.gz
           tar xf VTK-${{ matrix.version }}.tar.gz && rm VTK-${{ matrix.version }}.tar.gz
           mkdir VTK-build && cd VTK-build
           cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=../VTK-out ../VTK-${{ matrix.version }}
