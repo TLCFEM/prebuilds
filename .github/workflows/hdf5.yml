@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Clone
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Compile
         run: |
           wget -q https://github.com/HDFGroup/hdf5/releases/download/hdf5_${{ env.version }}/hdf5-${{ env.version }}.tar.gz && tar xf hdf5-${{ env.version }}.tar.gz
@@ -27,7 +27,7 @@ jobs:
     runs-on: macos-13
     steps:
       - name: Clone
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Compile
         run: |
           export CC=gcc-12 && export CXX=g++-12 && export FC=gfortran-12
@@ -48,7 +48,7 @@ jobs:
     runs-on: windows-2022
     steps:
       - name: Clone
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Compile
         run: |
           C:/msys64/usr/bin/wget.exe -q https://github.com/HDFGroup/hdf5/releases/download/hdf5_${{ env.version }}/hdf5-${{ env.version }}.zip && unzip hdf5-${{ env.version }}.zip
@@ -68,7 +68,7 @@ jobs:
     runs-on: windows-2022
     steps:
       - name: Clone
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Compile
         run: |
           C:/msys64/usr/bin/wget.exe -q https://github.com/brechtsanders/winlibs_mingw/releases/download/13.3.0posix-11.0.1-ucrt-r1/winlibs-x86_64-posix-seh-gcc-13.3.0-mingw-w64ucrt-11.0.1-r1.7z
