@@ -1,27 +1,28 @@
 name: vtk-linux
 on: workflow_dispatch
+env:
+  major: "9"
+  minor: "5"
+  patch: "1"
 jobs:
   vtk-amd64:
-    strategy:
-      matrix:
-        version: [ 9.5.0 ]
     runs-on: ubuntu-22.04
     steps:
       - name: Compile
         run: |
           sudo apt-get install libglvnd-dev gcc gfortran g++
-          wget -q https://www.vtk.org/files/release/9.5/VTK-${{ matrix.version }}.tar.gz
-          tar xf VTK-${{ matrix.version }}.tar.gz && rm VTK-${{ matrix.version }}.tar.gz
+          wget -q https://www.vtk.org/files/release/${{ env.major }}.${{ env.minor }}/VTK-${{ env.major }}.${{ env.minor }}.${{ env.patch }}.tar.gz -O VTK.tar.gz
+          tar xf VTK.tar.gz && rm VTK.tar.gz
           mkdir VTK-build && cd VTK-build
-          cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=../VTK-out ../VTK-${{ matrix.version }}
+          cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=../VTK-out ../VTK
           cmake --build . --target install --config Release --parallel 4
           cd ../VTK-out
-          tar cvzf ../VTK-${{ matrix.version }}-linux.tar.gz ./*
+          tar cvzf ../VTK-${{ env.major }}.${{ env.minor }}.${{ env.patch }}-linux.tar.gz ./*
       - name: Release
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: VTK-${{ matrix.version }}-linux.tar.gz
-          asset_name: VTK-${{ matrix.version }}-linux.tar.gz
+          file: VTK-${{ env.major }}.${{ env.minor }}.${{ env.patch }}-linux.tar.gz
+          asset_name: VTK-${{ env.major }}.${{ env.minor }}.${{ env.patch }}-linux.tar.gz
           tag: latest
           overwrite: true
