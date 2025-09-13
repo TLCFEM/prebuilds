@@ -6,7 +6,10 @@ env:
   patch: "1"
 jobs:
   vtk-macos:
-    runs-on: macos-13
+    strategy:
+      matrix:
+        os: [ macos-13-large, macos-14-large, macos-15-large ]
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Compile
         run: |
@@ -19,12 +22,12 @@ jobs:
           cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=../VTK-out ../VTK-$VERSION
           cmake --build . --target install --config Release --parallel 4
           cd ../VTK-out
-          tar cvzf ../VTK-$VERSION-macos.tar.gz ./*
+          tar cvzf ../VTK-$VERSION-${{ matrix.os }}.tar.gz ./*
       - name: Release
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: VTK-${{ env.major }}.${{ env.minor }}.${{ env.patch }}-macos.tar.gz
-          asset_name: VTK-${{ env.major }}.${{ env.minor }}.${{ env.patch }}-macos.tar.gz
+          file: VTK-${{ env.major }}.${{ env.minor }}.${{ env.patch }}-${{ matrix.os }}.tar.gz
+          asset_name: VTK-${{ env.major }}.${{ env.minor }}.${{ env.patch }}-${{ matrix.os }}.tar.gz
           tag: latest
           overwrite: true
