@@ -24,24 +24,27 @@ jobs:
           tag: latest
           overwrite: true
   hdf5-macos:
-    runs-on: macos-13
+    strategy:
+      matrix:
+        os: [ macos-13-large, macos-14-large, macos-15-large, macos-14-xlarge, macos-15-xlarge ]
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Clone
         uses: actions/checkout@v5
       - name: Compile
         run: |
-          export CC=gcc-12 && export CXX=g++-12 && export FC=gfortran-12
+          export CC=gcc-13 && export CXX=g++-13 && export FC=gfortran-13
           wget -q https://github.com/HDFGroup/hdf5/releases/download/hdf5_${{ env.version }}/hdf5-${{ env.version }}.tar.gz && tar xf hdf5-${{ env.version }}.tar.gz
           mkdir packing && mkdir build && cd build
           cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DHDF5_ENABLE_Z_LIB_SUPPORT=OFF -DCMAKE_INSTALL_PREFIX=../packing ../hdf5-${{ env.version }}
           cmake --build . --target install --config Release --parallel
-          cd ../packing && tar cvzf ../HDF5-${{ env.version }}-macos.tar.gz ./*
+          cd ../packing && tar cvzf ../HDF5-${{ env.version }}-${{ matrix.os }}.tar.gz ./*
       - name: Release
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: HDF5-${{ env.version }}-macos.tar.gz
-          asset_name: HDF5-${{ env.version }}-macos.tar.gz
+          file: HDF5-${{ env.version }}-${{ matrix.os }}.tar.gz
+          asset_name: HDF5-${{ env.version }}-${{ matrix.os }}.tar.gz
           tag: latest
           overwrite: true
   hdf5-win:
