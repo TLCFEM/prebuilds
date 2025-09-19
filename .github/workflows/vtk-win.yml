@@ -3,8 +3,8 @@ on: workflow_dispatch
 env:
   major: "9"
   minor: "5"
-  patch: "1"
-  version: "9.5.1"
+  patch: "2"
+  version: "9.5.2"
 jobs:
   vtk-win-vs:
     runs-on: windows-2022

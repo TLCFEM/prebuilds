@@ -3,7 +3,7 @@ on: workflow_dispatch
 env:
   major: "9"
   minor: "5"
-  patch: "1"
+  patch: "2"
 jobs:
   vtk-amd64:
     runs-on: ubuntu-22.04
