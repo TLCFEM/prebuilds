@@ -4,7 +4,7 @@ jobs:
   openblas-macos:
     strategy:
       matrix:
-        os: [ macos-13-large, macos-14-large, macos-15-large, macos-14-xlarge, macos-15-xlarge ]
+        os: [ macos-14-large, macos-15-large, macos-14-xlarge, macos-15-xlarge ]
         version: [ 0.3.30 ]
     runs-on: ${{ matrix.os }}
     steps:
