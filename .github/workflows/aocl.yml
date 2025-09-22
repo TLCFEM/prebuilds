@@ -13,14 +13,9 @@ jobs:
         uses: actions/checkout@v5
         with:
           repository: amd/aocl
-      - name: Arch amd64
-        if: ${{ !contains(matrix.os, 'arm') }}
-        run: echo "ARTIFACT=aocl-linux-amd64.tar.gz" >> "$GITHUB_ENV"
-      - name: Arch arm64
-        if: ${{ contains(matrix.os, 'arm') }}
-        run: echo "ARTIFACT=aocl-linux-arm64.tar.gz" >> "$GITHUB_ENV"
       - name: Patch
         run: |
+          echo "ARTIFACT=aocl-${{ matrix.os }}.tar.gz" >> "$GITHUB_ENV"
           find . -name '*.cmake' -exec sed -i 's/--target install -j/--target install/' {} +
           find . -name '*.cmake' -exec sed -i 's/--config ${CMAKE_BUILD_TYPE} -j/--config ${CMAKE_BUILD_TYPE}/' {} +
           cmake --preset aocl-linux-make-lp-ga-gcc-config -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DENABLE_CBLAS=ON -DENABLE_AOCL_COMPRESSION=OFF -DENABLE_AOCL_CRYPTO=OFF -DENABLE_AOCL_SPARSE=OFF -DCMAKE_INSTALL_PREFIX=aocl-install --fresh
