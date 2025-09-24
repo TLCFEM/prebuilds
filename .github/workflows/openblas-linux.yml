@@ -33,7 +33,6 @@ jobs:
           make
           export ARCHIVE=OpenBLAS-${{ matrix.version }}-${{ matrix.os }}-${{ matrix.indexing }}.tar.gz
           echo "ARCHIVE=$ARCHIVE" >> "$GITHUB_ENV"
-          ldd libopenblas.so
           tar czf ../$ARCHIVE lib*.*
       - name: Release
         uses: svenstaro/upload-release-action@v2
