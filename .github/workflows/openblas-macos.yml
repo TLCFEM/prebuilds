@@ -10,7 +10,6 @@ jobs:
     steps:
       - name: Compile
         run: |
-          export CC=gcc-13 && export CXX=g++-13 && export FC=gfortran-13
           wget -q https://github.com/xianyi/OpenBLAS/releases/download/v${{ matrix.version }}/OpenBLAS-${{ matrix.version }}.tar.gz
           tar xf OpenBLAS-${{ matrix.version }}.tar.gz && rm OpenBLAS-${{ matrix.version }}.tar.gz && cd OpenBLAS-${{ matrix.version }}
           sed -i '~' 's/# DYNAMIC_ARCH = 1/DYNAMIC_ARCH = 1/g' Makefile.rule
@@ -21,7 +20,8 @@ jobs:
           sed -i '~' 's/# NO_CBLAS = 1/NO_CBLAS = 1/g' Makefile.rule
           sed -i '~' 's/# NO_LAPACKE = 1/NO_LAPACKE = 1/g' Makefile.rule
           sed -i '~' 's/# GEMM_MULTITHREAD_THRESHOLD = 4/GEMM_MULTITHREAD_THRESHOLD = 64/g' Makefile.rule
-          make
+          make CC=gcc-13 CXX=g++-13 FC=gfortran-13 FFLAGS="-static-libgfortran -static-libgcc -static-libquadmath" LDFLAGS="-static-libgfortran -static-libgcc -static-libquadmath"
+          otool -L libopenblas.dylib
           tar cvzf ../OpenBLAS-${{ matrix.version }}-${{ matrix.os }}.tar.gz lib*.*
       - name: Release
         uses: svenstaro/upload-release-action@v2
