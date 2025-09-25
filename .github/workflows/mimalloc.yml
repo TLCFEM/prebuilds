@@ -6,16 +6,12 @@ jobs:
   mimalloc:
     strategy:
       matrix:
-        os: [ ubuntu-22.04, macos-14-large, macos-15-large, macos-14-xlarge, macos-15-xlarge ]
+        os: [ ubuntu-22.04, ubuntu-22.04-arm, macos-14-large, macos-15-large, macos-14-xlarge, macos-15-xlarge ]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Compile
         run: |
-          if [ ${{ matrix.os }} == 'ubuntu-22.04' ]; then
-            export ARCHIVE=mimalloc-linux.tar.gz
-          else
-            export ARCHIVE=mimalloc-${{ matrix.os }}.tar.gz
-          fi
+          export ARCHIVE=mimalloc-${{ matrix.os }}.tar.gz
           echo "ARCHIVE=$ARCHIVE" >> "$GITHUB_ENV"
           git clone --depth 1 --branch v2.2.3 https://github.com/microsoft/mimalloc.git
           mkdir mimalloc-install && mkdir build && cd build
