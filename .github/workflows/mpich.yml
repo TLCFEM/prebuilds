@@ -4,16 +4,18 @@ env:
   ARCHIVE: ""
 jobs:
   mpich:
-    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        os: [ ubuntu-22.04, ubuntu-22.04-arm ]
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Compile
         run: |
-          export ARCHIVE=MPICH-linux.tar.gz
+          export ARCHIVE=MPICH-${{ matrix.os }}.tar.gz
           echo "ARCHIVE=$ARCHIVE" >> "$GITHUB_ENV"
           wget -q https://www.mpich.org/static/downloads/4.3.0/mpich-4.3.0.tar.gz
           tar xf mpich-4.3.0.tar.gz
-          cd mpich-4.3.0
-          ./configure --prefix=/MPICH
+          cd mpich-4.3.0 && ./configure --prefix=/MPICH
           make -j$(nproc) && sudo make install
           tar cvzf ../$ARCHIVE /MPICH
       - name: Release
