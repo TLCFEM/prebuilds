@@ -17,6 +17,6 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: /home/runner/examples.tar.gz
-          asset_name: examples.tar.gz
+          asset_name: mkl.examples.tar.gz
           tag: latest
           overwrite: true
