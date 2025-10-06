@@ -4,8 +4,8 @@ jobs:
   openblas-macos:
     strategy:
       matrix:
-        os: [ macos-14-large, macos-15-large, macos-14-xlarge, macos-15-xlarge ]
-        version: [ 0.3.30 ]
+        os: [macos-14-large, macos-15-large, macos-14-xlarge, macos-15-xlarge]
+        version: [0.3.30]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Compile
@@ -31,4 +31,3 @@ jobs:
           asset_name: OpenBLAS-${{ matrix.version }}-${{ matrix.os }}.tar.gz
           tag: latest
           overwrite: true
-        

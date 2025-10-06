@@ -4,8 +4,8 @@ jobs:
   openblas-win:
     strategy:
       matrix:
-        version: [ 0.3.30 ]
-        indexing: [ 32 ]
+        version: [0.3.30]
+        indexing: [32]
     runs-on: windows-2022
     steps:
       - name: CMD

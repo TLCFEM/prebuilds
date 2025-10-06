@@ -1,8 +1,0 @@
-name: suanpan-macos
-on: workflow_dispatch
-jobs:
-  suanpan-macos:
-    runs-on: macos-15-xlarge
-    steps:
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3

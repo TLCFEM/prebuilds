@@ -1,14 +1,14 @@
 name: openblas-linux
 on: workflow_dispatch
 env:
-  ARCHIVE: ''
+  ARCHIVE: ""
 jobs:
   openblas:
     strategy:
       matrix:
-        version: [ 0.3.30 ]
-        indexing: [ 32, 64 ]
-        os: [ ubuntu-22.04, ubuntu-22.04-arm ]
+        version: [0.3.30]
+        indexing: [32, 64]
+        os: [ubuntu-22.04, ubuntu-22.04-arm]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Download

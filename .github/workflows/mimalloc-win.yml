@@ -4,7 +4,7 @@ jobs:
   mimalloc-win:
     strategy:
       matrix:
-        archive: [ mimalloc-win.7z, mimalloc-win-gcc.7z ]
+        archive: [mimalloc-win.7z, mimalloc-win-gcc.7z]
     runs-on: windows-2022
     steps:
       - name: Winlibs

@@ -4,7 +4,16 @@ jobs:
   appimage-builder:
     strategy:
       matrix:
-        os: [ ubuntu-22.04, ubuntu-22.04-arm, macos-14-large, macos-15-large, macos-14-xlarge, macos-15-xlarge, windows-2022 ]
+        os:
+          [
+            ubuntu-22.04,
+            ubuntu-22.04-arm,
+            macos-14-large,
+            macos-15-large,
+            macos-14-xlarge,
+            macos-15-xlarge,
+            windows-2022,
+          ]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Clone
@@ -15,7 +24,7 @@ jobs:
         uses: actions/setup-python@v6
         with:
           python-version: 3.11
-          cache: 'pip'
+          cache: "pip"
       - name: Compile
         run: |
           python3 -c 'f="appimagebuilder/modules/prime/appimage_primer.py"; d=open(f).read().replace("\"xz\"", "\"gzip\""); open(f, "w").write(d)'
