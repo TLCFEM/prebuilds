@@ -1,0 +1,12 @@
+name: virustotal
+on: workflow_dispatch
+jobs:
+  virustotal:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: VirusTotal
+        uses: cssnr/virustotal-action@v1
+        with:
+          vt_api_key: ${{ secrets.VIRUSTOTAL_KEY }}
+          release_id: latest
+          release_heading: "### 🛡️ VirusTotal Results"
