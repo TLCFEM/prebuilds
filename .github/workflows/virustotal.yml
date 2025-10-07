@@ -5,7 +5,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: VirusTotal
-        uses: TLCFEM/virustotal-action@feature-get-all-assets
+        uses: cssnr/virustotal-action@v1
         with:
           vt_api_key: ${{ secrets.VIRUSTOTAL_KEY }}
           release_id: latest
