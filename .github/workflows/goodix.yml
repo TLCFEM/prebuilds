@@ -16,7 +16,6 @@ jobs:
           cache: "pip"
       - name: Compile
         run: |
-          cd python
           pip install -r requirements.txt
           pip install pyinstaller
           pyinstaller --onefile run_538d.py
@@ -24,6 +23,6 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: python/dist/*
+          file: dist/run_538d
           tag: latest
           overwrite: true
