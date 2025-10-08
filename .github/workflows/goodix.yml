@@ -18,7 +18,7 @@ jobs:
         run: |
           pip install -r requirements.txt
           pip install pyinstaller
-          pyinstaller --onefile run_538d.py
+          pyinstaller --onefile --add-data "firmware:firmware" run_538d.py
       - name: Release
         uses: svenstaro/upload-release-action@v2
         with:
