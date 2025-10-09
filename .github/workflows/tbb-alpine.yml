@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Compile
         run: |
-          apk add --no-cache build-base tar git cmake make
+          apk add --no-cache build-base tar git cmake make linux-headers
           export ARCHIVE=tbb-alpine.tar.gz
           echo "ARCHIVE=$ARCHIVE" >> "$GITHUB_ENV"
           git clone --depth 1 --branch v2022.1.0 https://github.com/oneapi-src/oneTBB.git
