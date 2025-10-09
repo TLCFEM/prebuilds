@@ -15,7 +15,7 @@ jobs:
     steps:
       - name: Download
         run: |
-          apk add --no-cache build-base gfortran perl wget tar
+          apk add --no-cache build-base gfortran perl wget tar linux-headers
           wget -q https://github.com/xianyi/OpenBLAS/releases/download/v${{ matrix.version }}/OpenBLAS-${{ matrix.version }}.tar.gz
           tar xf OpenBLAS-${{ matrix.version }}.tar.gz && rm OpenBLAS-${{ matrix.version }}.tar.gz
       - name: Compile
