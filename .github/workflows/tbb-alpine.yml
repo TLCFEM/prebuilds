@@ -1,0 +1,28 @@
+name: tbb-alpine
+on: workflow_dispatch
+env:
+  ARCHIVE: ""
+jobs:
+  tbb:
+    runs-on: ubuntu-22.04
+    container:
+      image: alpine:latest
+    steps:
+      - name: Compile
+        run: |
+          apk add --no-cache build-base tar git cmake make
+          export ARCHIVE=tbb-alpine.tar.gz
+          echo "ARCHIVE=$ARCHIVE" >> "$GITHUB_ENV"
+          git clone --depth 1 --branch v2022.1.0 https://github.com/oneapi-src/oneTBB.git
+          mkdir tbb-install && mkdir build && cd build
+          cmake -DCMAKE_BUILD_TYPE=Release -DTBB_TEST=OFF -DCMAKE_INSTALL_PREFIX=../tbb-install ../oneTBB
+          cmake --build . --target install --config Release --parallel 4
+          cd .. && tar czf $ARCHIVE tbb-install
+      - name: Release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ${{ env.ARCHIVE }}
+          asset_name: ${{ env.ARCHIVE }}
+          tag: latest
+          overwrite: true
