@@ -8,8 +8,7 @@ jobs:
       matrix:
         version: [0.3.30]
         indexing: [32, 64]
-        os: [ubuntu-22.04, ubuntu-22.04-arm]
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-22.04
     container:
       image: alpine:latest
     steps:
@@ -34,7 +33,7 @@ jobs:
           fi
           sed -i 's/# GEMM_MULTITHREAD_THRESHOLD = 4/GEMM_MULTITHREAD_THRESHOLD = 64/g' Makefile.rule
           make
-          export ARCHIVE=OpenBLAS-alpine-${{ matrix.version }}-${{ matrix.os }}-${{ matrix.indexing }}.tar.gz
+          export ARCHIVE=OpenBLAS-${{ matrix.version }}-alpine-${{ matrix.indexing }}.tar.gz
           echo "ARCHIVE=$ARCHIVE" >> "$GITHUB_ENV"
           tar czf ../$ARCHIVE lib*.*
       - name: Release
