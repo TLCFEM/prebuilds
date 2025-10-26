@@ -31,7 +31,7 @@ jobs:
           if ("${{ matrix.indexing }}" -eq "64") {
             & "C:/msys64/usr/bin/sed.exe" -i 's/# INTERFACE64 = 1/INTERFACE64 = 1/g' Makefile.rule
           }
-          make
+          make LDFLAGS='-Wl,-Bstatic -lgfortran -lquadmath -lgomp -ldl -Wl,-Bdynamic'
           cd exports && lib.exe /def:libopenblas.def /out:libopenblas.lib /machine:x64 && cd ..
           7z a ../OpenBLAS-${{ matrix.version }}-win-${{ matrix.indexing }}.7z libopenblas.* exports/*.*
       - name: Release
