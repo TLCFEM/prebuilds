@@ -33,7 +33,7 @@ jobs:
           # cd oneTBB && git apply ../tbb-mingw.patch && cd ..
           mkdir build && cd build
           cmake -G "MinGW Makefiles" `
-          -DNTDDI_VERSION=0x0A000002 `
+          -DCMAKE_CXX_FLAGS="-D_WIN32_WINNT=0x0A00 -DNTDDI_VERSION=0x0A000002" `
           -DCMAKE_BUILD_TYPE=Release `
           -DCMAKE_C_COMPILER=D:/a/prebuilds/prebuilds/mingw64/bin/gcc.exe `
           -DCMAKE_CXX_COMPILER=D:/a/prebuilds/prebuilds/mingw64/bin/g++.exe `
