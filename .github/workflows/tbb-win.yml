@@ -29,8 +29,8 @@ jobs:
         run: |
           C:/msys64/usr/bin/wget.exe -q https://github.com/brechtsanders/winlibs_mingw/releases/download/13.3.0posix-11.0.1-ucrt-r1/winlibs-x86_64-posix-seh-gcc-13.3.0-mingw-w64ucrt-11.0.1-r1.7z
           7z x winlibs-x86_64-posix-seh-gcc-13.3.0-mingw-w64ucrt-11.0.1-r1.7z
-          git clone --depth 1 --branch v2022.1.0 https://github.com/uxlfoundation/oneTBB.git
-          cd oneTBB && git apply ../tbb-mingw.patch && cd ..
+          git clone --depth 1 --branch v2022.3.0 https://github.com/uxlfoundation/oneTBB.git
+          # cd oneTBB && git apply ../tbb-mingw.patch && cd ..
           mkdir build && cd build
           cmake -G "MinGW Makefiles" `
           -DCMAKE_BUILD_TYPE=Release `
@@ -46,11 +46,11 @@ jobs:
       # - name: Debug
       #   if: failure()
       #   uses: mxschmitt/action-tmate@v3
-      - name: Release
-        uses: svenstaro/upload-release-action@v2
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: tbb-win-gcc.7z
-          asset_name: tbb-win-gcc.7z
-          tag: latest
-          overwrite: true
+      # - name: Release
+      #   uses: svenstaro/upload-release-action@v2
+      #   with:
+      #     repo_token: ${{ secrets.GITHUB_TOKEN }}
+      #     file: tbb-win-gcc.7z
+      #     asset_name: tbb-win-gcc.7z
+      #     tag: latest
+      #     overwrite: true
