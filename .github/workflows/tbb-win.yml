@@ -25,18 +25,21 @@ jobs:
     steps:
       - name: Clone
         uses: actions/checkout@v5
+      - name: GCC
+        uses: bwoodsend/setup-winlibs-action@v1
+        id: winlibs
+        with:
+          tag: 13.3.0posix-11.0.1-ucrt-r1
       - name: Compile
         run: |
-          C:/msys64/usr/bin/wget.exe -q https://github.com/brechtsanders/winlibs_mingw/releases/download/13.3.0posix-11.0.1-ucrt-r1/winlibs-x86_64-posix-seh-gcc-13.3.0-mingw-w64ucrt-11.0.1-r1.7z
-          7z x winlibs-x86_64-posix-seh-gcc-13.3.0-mingw-w64ucrt-11.0.1-r1.7z
           git clone --depth 1 --branch v2022.3.0 https://github.com/uxlfoundation/oneTBB.git
           mkdir build && cd build
           cmake -G "MinGW Makefiles" `
           -DCMAKE_CXX_FLAGS="-D_WIN32_WINNT=0x0A00 -DNTDDI_VERSION=0x0A000002" `
           -DCMAKE_BUILD_TYPE=Release `
-          -DCMAKE_C_COMPILER=D:/a/prebuilds/prebuilds/mingw64/bin/gcc.exe `
-          -DCMAKE_CXX_COMPILER=D:/a/prebuilds/prebuilds/mingw64/bin/g++.exe `
-          -DCMAKE_Fortran_COMPILER=D:/a/prebuilds/prebuilds/mingw64/bin/gfortran.exe `
+          -DCMAKE_C_COMPILER=${{ steps.winlibs.outputs.bin }}/gcc.exe `
+          -DCMAKE_CXX_COMPILER=${{ steps.winlibs.outputs.bin }}/g++.exe `
+          -DCMAKE_Fortran_COMPILER=${{ steps.winlibs.outputs.bin }}/gfortran.exe `
           -DCMAKE_INSTALL_PREFIX=D:/a/prebuilds/prebuilds/tbb-win-gcc `
           -DTBB_TEST=OFF `
           ../oneTBB
