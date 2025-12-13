@@ -24,7 +24,7 @@ jobs:
     runs-on: windows-2022
     steps:
       - name: Clone
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: GCC
         uses: bwoodsend/setup-winlibs-action@v1
         id: winlibs

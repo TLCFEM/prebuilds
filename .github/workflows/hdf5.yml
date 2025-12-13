@@ -11,7 +11,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Clone
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Compile
         run: |
           wget -q ${{ env.download_url }} && tar xf hdf5-${{ env.version }}.tar.gz
@@ -34,7 +34,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Clone
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Compile
         run: |
           export CC=gcc-13 && export CXX=g++-13 && export FC=gfortran-13
@@ -55,7 +55,7 @@ jobs:
     runs-on: windows-2022
     steps:
       - name: Clone
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Compile
         run: |
           C:/msys64/usr/bin/wget.exe -q ${{ env.download_url }} && tar xf hdf5-${{ env.version }}.tar.gz
@@ -75,7 +75,7 @@ jobs:
     runs-on: windows-2022
     steps:
       - name: Clone
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: GCC
         uses: bwoodsend/setup-winlibs-action@v1
         id: winlibs
