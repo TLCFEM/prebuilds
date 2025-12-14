@@ -19,9 +19,11 @@ jobs:
           git clone --depth 1 --branch v2.2.4 https://github.com/microsoft/mimalloc.git
           mkdir mimalloc-install && mkdir build && cd build
           if [ ${{ matrix.archive }} == 'mimalloc-win-gcc.7z' ]; then
-            export CC=${{ steps.winlibs.outputs.bin }}/gcc.exe && \
-            export CXX=${{ steps.winlibs.outputs.bin }}/g++.exe && \
-            export FC=${{ steps.winlibs.outputs.bin }}/gfortran.exe && \
+            BIN_POSIX="${{ steps.winlibs.outputs.bin }}"
+            BIN_POSIX="${BIN_POSIX//\\//}"
+            export CC=$BIN_POSIX/gcc.exe && \
+            export CXX=$BIN_POSIX/g++.exe && \
+            export FC=$BIN_POSIX/gfortran.exe && \
             cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../mimalloc-install ../mimalloc
           else
             cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../mimalloc-install ../mimalloc
