@@ -16,7 +16,7 @@ jobs:
         run: |
           wget -q ${{ env.download_url }} && tar xf hdf5-${{ env.version }}.tar.gz
           mkdir packing && mkdir build && cd build
-          cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DHDF5_ENABLE_Z_LIB_SUPPORT=OFF -DCMAKE_INSTALL_PREFIX=../packing ../hdf5-${{ env.version }}
+          cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=../packing ../hdf5-${{ env.version }}
           cmake --build . --target install --config Release --parallel
           cd ../packing && tar cvzf ../HDF5-${{ env.version }}-${{ matrix.os }}.tar.gz ./*
       - name: Release
@@ -40,7 +40,7 @@ jobs:
           export CC=gcc-13 && export CXX=g++-13 && export FC=gfortran-13
           wget -q ${{ env.download_url }} && tar xf hdf5-${{ env.version }}.tar.gz
           mkdir packing && mkdir build && cd build
-          cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DHDF5_ENABLE_Z_LIB_SUPPORT=OFF -DCMAKE_INSTALL_PREFIX=../packing ../hdf5-${{ env.version }}
+          cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=../packing ../hdf5-${{ env.version }}
           cmake --build . --target install --config Release --parallel
           cd ../packing && tar cvzf ../HDF5-${{ env.version }}-${{ matrix.os }}.tar.gz ./*
       - name: Release
@@ -60,7 +60,7 @@ jobs:
         run: |
           C:/msys64/usr/bin/wget.exe -q ${{ env.download_url }} && tar xf hdf5-${{ env.version }}.tar.gz
           mkdir packing && mkdir build && cd build
-          cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DHDF5_ENABLE_Z_LIB_SUPPORT=OFF -DCMAKE_INSTALL_PREFIX="D:\a\prebuilds\prebuilds\packing" ../hdf5-${{ env.version }}
+          cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX="D:\a\prebuilds\prebuilds\packing" ../hdf5-${{ env.version }}
           cmake --build . --target install --config Release --parallel
           cd ../packing && 7z a ../HDF5-${{ env.version }}-win.zip ./*
       - name: Release
@@ -82,8 +82,8 @@ jobs:
           7z x winlibs-x86_64-posix-seh-gcc-13.3.0-mingw-w64ucrt-11.0.1-r1.7z
           C:/msys64/usr/bin/wget.exe -q ${{ env.download_url }} && tar xf hdf5-${{ env.version }}.tar.gz
           mkdir packing && mkdir build && cd build
-          cmake -G "MinGW Makefiles" -DCMAKE_C_COMPILER=D:/a/prebuilds/prebuilds/mingw64/bin/gcc.exe -DCMAKE_CXX_COMPILER=D:/a/prebuilds/prebuilds/mingw64/bin/g++.exe -DCMAKE_Fortran_COMPILER=D:/a/prebuilds/prebuilds/mingw64/bin/gfortran.exe -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DHDF5_ENABLE_Z_LIB_SUPPORT=OFF -DCMAKE_INSTALL_PREFIX="D:\a\prebuilds\prebuilds\packing" ../hdf5-${{ env.version }}
-          cmake --build . --target install --config Release --parallel
+          cmake -G "MinGW Makefiles" -DCMAKE_C_COMPILER=D:/a/prebuilds/prebuilds/mingw64/bin/gcc.exe -DCMAKE_CXX_COMPILER=D:/a/prebuilds/prebuilds/mingw64/bin/g++.exe -DCMAKE_Fortran_COMPILER=D:/a/prebuilds/prebuilds/mingw64/bin/gfortran.exe -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX="D:\a\prebuilds\prebuilds\packing" ../hdf5-${{ env.version }}
+          cmake --build . --target install --config Release
           cd ../packing && 7z a ../HDF5-${{ env.version }}-win-gcc.zip ./*
       - name: Release
         uses: svenstaro/upload-release-action@v2
