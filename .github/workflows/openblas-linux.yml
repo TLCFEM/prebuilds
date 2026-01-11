@@ -8,7 +8,7 @@ jobs:
       matrix:
         version: [0.3.30]
         indexing: [32, 64]
-        os: [ubuntu-22.04, ubuntu-22.04-arm]
+        os: [ubuntu-24.04, ubuntu-24.04-arm]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Download

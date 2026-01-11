@@ -6,7 +6,7 @@ jobs:
       matrix:
         version: [0.3.30]
         indexing: [32]
-    runs-on: windows-2022
+    runs-on: windows-2025
     steps:
       - name: CMD
         uses: TheMrMilchmann/setup-msvc-dev@v4

@@ -2,7 +2,7 @@ name: mkl-examples
 on: workflow_dispatch
 jobs:
   mkl-examples:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-slim
     steps:
       - name: MKL
         run: |

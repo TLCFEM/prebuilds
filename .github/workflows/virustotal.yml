@@ -2,7 +2,7 @@ name: virustotal
 on: workflow_dispatch
 jobs:
   virustotal:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-slim
     steps:
       - name: VirusTotal
         uses: cssnr/virustotal-action@v1

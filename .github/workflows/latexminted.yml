@@ -2,7 +2,7 @@ name: latexminted-win
 on: workflow_dispatch
 jobs:
   latexminted-win:
-    runs-on: windows-2022
+    runs-on: windows-2025
     steps:
       - name: Clone
         uses: actions/checkout@v6

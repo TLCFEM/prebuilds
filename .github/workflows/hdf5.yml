@@ -7,7 +7,7 @@ jobs:
   hdf5-linux:
     strategy:
       matrix:
-        os: [ubuntu-22.04, ubuntu-22.04-arm]
+        os: [ubuntu-24.04, ubuntu-24.04-arm]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Clone
@@ -52,7 +52,7 @@ jobs:
           tag: latest
           overwrite: true
   hdf5-win:
-    runs-on: windows-2022
+    runs-on: windows-2025
     steps:
       - name: Clone
         uses: actions/checkout@v6
@@ -72,7 +72,7 @@ jobs:
           tag: latest
           overwrite: true
   hdf5-win-gcc:
-    runs-on: windows-2022
+    runs-on: windows-2025
     steps:
       - name: Clone
         uses: actions/checkout@v6

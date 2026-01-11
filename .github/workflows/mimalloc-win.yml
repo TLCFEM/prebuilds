@@ -5,7 +5,7 @@ jobs:
     strategy:
       matrix:
         archive: [mimalloc-win.7z, mimalloc-win-gcc.7z]
-    runs-on: windows-2022
+    runs-on: windows-2025
     steps:
       - name: GCC
         if: matrix.archive == 'mimalloc-win-gcc.7z'

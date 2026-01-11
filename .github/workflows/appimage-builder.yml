@@ -6,13 +6,13 @@ jobs:
       matrix:
         os:
           [
-            ubuntu-22.04,
-            ubuntu-22.04-arm,
+            ubuntu-24.04,
+            ubuntu-24.04-arm,
             macos-14-large,
             macos-15-large,
             macos-14-xlarge,
             macos-15-xlarge,
-            windows-2022,
+            windows-2025,
           ]
     runs-on: ${{ matrix.os }}
     steps:
