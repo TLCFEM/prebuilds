@@ -7,7 +7,7 @@ env:
   version: "9.5.2"
 jobs:
   vtk-win-vs:
-    runs-on: windows-2022
+    runs-on: windows-2025
     steps:
       - name: Compile
         run: |
@@ -27,24 +27,21 @@ jobs:
           tag: latest
           overwrite: true
   vtk-win-gcc:
-    runs-on: windows-2022
+    runs-on: windows-2025
     steps:
-      - name: GCC
-        uses: bwoodsend/setup-winlibs-action@v1
-        id: winlibs
-        with:
-          tag: 13.3.0posix-11.0.1-ucrt-r1
       - name: Compile
         run: |
+          C:/msys64/usr/bin/wget.exe -q https://github.com/brechtsanders/winlibs_mingw/releases/download/13.3.0posix-11.0.1-ucrt-r1/winlibs-x86_64-posix-seh-gcc-13.3.0-mingw-w64ucrt-11.0.1-r1.7z
+          7z x winlibs-x86_64-posix-seh-gcc-13.3.0-mingw-w64ucrt-11.0.1-r1.7z
           C:/msys64/usr/bin/wget.exe -q https://www.vtk.org/files/release/${{ env.major }}.${{ env.minor }}/VTK-${{ env.VERSION }}.tar.gz
           tar xf VTK-${{ env.VERSION }}.tar.gz && del VTK-${{ env.VERSION }}.tar.gz
           mkdir VTK-build && mkdir VTK-out && cd VTK-build
           cmake -G "MinGW Makefiles" `
           -DBUILD_SHARED_LIBS=OFF `
           -DCMAKE_BUILD_TYPE=Release `
-          -DCMAKE_C_COMPILER=${{ steps.winlibs.outputs.bin }}/gcc.exe `
-          -DCMAKE_CXX_COMPILER=${{ steps.winlibs.outputs.bin }}/g++.exe `
-          -DCMAKE_Fortran_COMPILER=${{ steps.winlibs.outputs.bin }}/gfortran.exe `
+          -DCMAKE_C_COMPILER=D:/a/prebuilds/prebuilds/mingw64/bin/gcc.exe `
+          -DCMAKE_CXX_COMPILER=D:/a/prebuilds/prebuilds/mingw64/bin/g++.exe `
+          -DCMAKE_Fortran_COMPILER=D:/a/prebuilds/prebuilds/mingw64/bin/gfortran.exe `
           -DCMAKE_INSTALL_PREFIX=D:/a/prebuilds/prebuilds/VTK-out `
           ../VTK-${{ env.VERSION }}
           cmake --build . --target install --config Release --parallel 4

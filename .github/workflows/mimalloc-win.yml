@@ -9,21 +9,18 @@ jobs:
     steps:
       - name: GCC
         if: matrix.archive == 'mimalloc-win-gcc.7z'
-        uses: bwoodsend/setup-winlibs-action@v1
-        id: winlibs
-        with:
-          tag: 13.3.0posix-11.0.1-ucrt-r1
+        run: |
+            C:/msys64/usr/bin/wget.exe -q https://github.com/brechtsanders/winlibs_mingw/releases/download/13.3.0posix-11.0.1-ucrt-r1/winlibs-x86_64-posix-seh-gcc-13.3.0-mingw-w64ucrt-11.0.1-r1.7z
+            7z x winlibs-x86_64-posix-seh-gcc-13.3.0-mingw-w64ucrt-11.0.1-r1.7z
       - name: Compile
         shell: bash
         run: |
           git clone --depth 1 --branch v2.2.4 https://github.com/microsoft/mimalloc.git
           mkdir mimalloc-install && mkdir build && cd build
           if [ ${{ matrix.archive }} == 'mimalloc-win-gcc.7z' ]; then
-            BIN_POSIX="${{ steps.winlibs.outputs.bin }}"
-            BIN_POSIX="${BIN_POSIX//\\//}"
-            export CC=$BIN_POSIX/gcc.exe && \
-            export CXX=$BIN_POSIX/g++.exe && \
-            export FC=$BIN_POSIX/gfortran.exe && \
+            export CC=D:/a/prebuilds/prebuilds/mingw64/bin/gcc.exe && \
+            export CXX=D:/a/prebuilds/prebuilds/mingw64/bin/g++.exe && \
+            export FC=D:/a/prebuilds/prebuilds/mingw64/bin/gfortran.exe && \
             cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../mimalloc-install ../mimalloc
           else
             cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../mimalloc-install ../mimalloc
