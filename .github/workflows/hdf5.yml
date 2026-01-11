@@ -3,6 +3,7 @@ on: workflow_dispatch
 env:
   version: 2.0.0
   download_url: https://support.hdfgroup.org/releases/hdf5/v2_0/v2_0_0/downloads/hdf5-2.0.0.tar.gz
+  download_zip: https://support.hdfgroup.org/releases/hdf5/v2_0/v2_0_0/downloads/hdf5-2.0.0.zip
 jobs:
   hdf5-linux:
     strategy:
@@ -52,13 +53,13 @@ jobs:
           tag: latest
           overwrite: true
   hdf5-win:
-    runs-on: windows-2022
+    runs-on: windows-2025
     steps:
       - name: Clone
         uses: actions/checkout@v6
       - name: Compile
         run: |
-          C:/msys64/usr/bin/wget.exe -q ${{ env.download_url }} && tar xf hdf5-${{ env.version }}.tar.gz
+          C:/msys64/usr/bin/wget.exe -q ${{ env.download_zip }} && unzip hdf5-${{ env.version }}.zip
           mkdir packing && mkdir build && cd build
           cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DHDF5_ENABLE_Z_LIB_SUPPORT=OFF -DCMAKE_INSTALL_PREFIX="D:\a\prebuilds\prebuilds\packing" ../hdf5-${{ env.version }}
           cmake --build . --target install --config Release --parallel
@@ -72,7 +73,7 @@ jobs:
           tag: latest
           overwrite: true
   hdf5-win-gcc:
-    runs-on: windows-2022
+    runs-on: windows-2025
     steps:
       - name: Clone
         uses: actions/checkout@v6
@@ -83,7 +84,7 @@ jobs:
           tag: 13.3.0posix-11.0.1-ucrt-r1
       - name: Compile
         run: |
-          C:/msys64/usr/bin/wget.exe -q ${{ env.download_url }} && tar xf hdf5-${{ env.version }}.tar.gz
+          C:/msys64/usr/bin/wget.exe -q ${{ env.download_zip }} && unzip hdf5-${{ env.version }}.zip
           mkdir packing && mkdir build && cd build
           cmake -G "MinGW Makefiles" -DCMAKE_C_COMPILER=${{ steps.winlibs.outputs.bin }}/gcc.exe -DCMAKE_CXX_COMPILER=${{ steps.winlibs.outputs.bin }}/g++.exe -DCMAKE_Fortran_COMPILER=${{ steps.winlibs.outputs.bin }}/gfortran.exe -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DHDF5_ENABLE_Z_LIB_SUPPORT=OFF -DCMAKE_INSTALL_PREFIX="D:\a\prebuilds\prebuilds\packing" ../hdf5-${{ env.version }}
           cmake --build . --target install --config Release --parallel
