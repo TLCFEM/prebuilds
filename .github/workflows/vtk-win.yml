@@ -7,7 +7,7 @@ env:
   version: "9.5.2"
 jobs:
   vtk-win-vs:
-    runs-on: windows-2025
+    runs-on: windows-2022
     steps:
       - name: Compile
         run: |
@@ -27,7 +27,7 @@ jobs:
           tag: latest
           overwrite: true
   vtk-win-gcc:
-    runs-on: windows-2025
+    runs-on: windows-2022
     steps:
       - name: GCC
         uses: bwoodsend/setup-winlibs-action@v1
