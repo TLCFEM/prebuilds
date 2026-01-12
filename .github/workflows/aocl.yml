@@ -15,10 +15,11 @@ jobs:
           repository: amd/aocl
       - name: Patch
         run: |
-          echo "ARCHIVE=aocl-${{ matrix.os }}.tar.gz" >> "$GITHUB_ENV"
+          export ARCHIVE=aocl-${{ matrix.os }}.tar.gz
+          echo "ARCHIVE=$ARCHIVE" >> "$GITHUB_ENV"
           cmake --preset aocl-linux-make-lp-ga-gcc-config -DBUILD_SHARED_LIBS=OFF -DENABLE_AOCL_COMPRESSION=OFF -DENABLE_AOCL_SPARSE=OFF -DENABLE_AOCL_CRYPTO=OFF -DENABLE_AOCL_DA=OFF -DENABLE_AOCL_LIBMEM=OFF -DCMAKE_INSTALL_PREFIX=aocl-install --fresh
           cmake --build build --config Release --target install --parallel
-          tar cvzf ${{ env.ARCHIVE }} -C aocl-install .
+          tar cvzf $ARCHIVE -C aocl-install .
       - name: Release
         uses: svenstaro/upload-release-action@v2
         with:
