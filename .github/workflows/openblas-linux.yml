@@ -6,7 +6,7 @@ jobs:
   openblas:
     strategy:
       matrix:
-        version: [0.3.30]
+        version: [0.3.31]
         indexing: [32, 64]
         os: [ubuntu-22.04, ubuntu-22.04-arm, ubuntu-24.04, ubuntu-24.04-arm]
     runs-on: ${{ matrix.os }}

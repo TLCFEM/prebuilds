@@ -6,7 +6,7 @@ jobs:
   openblas:
     strategy:
       matrix:
-        version: [0.3.30]
+        version: [0.3.31]
         indexing: [32, 64]
     runs-on: ubuntu-24.04
     container:
