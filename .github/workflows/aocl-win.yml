@@ -1,0 +1,30 @@
+name: aocl-win
+on: workflow_dispatch
+env:
+  ARCHIVE: ""
+jobs:
+  aocl-win:
+    runs-on: windows-2025
+    steps:
+      - name: Clone
+        uses: actions/checkout@v6
+        with:
+          repository: amd/aocl
+      - name: Patch
+        shell: bash
+        run: |
+          # C:/msys64/usr/bin/wget.exe -q https://github.com/brechtsanders/winlibs_mingw/releases/download/13.3.0posix-11.0.1-ucrt-r1/winlibs-x86_64-posix-seh-gcc-13.3.0-mingw-w64ucrt-11.0.1-r1.7z
+          # 7z x winlibs-x86_64-posix-seh-gcc-13.3.0-mingw-w64ucrt-11.0.1-r1.7z
+          export ARCHIVE=aocl-win-clang.tar.gz
+          echo "ARCHIVE=$ARCHIVE" >> "$GITHUB_ENV"
+          cmake --preset aocl-win-ninja-lp-ga-config -DBUILD_SHARED_LIBS=OFF -DENABLE_AOCL_COMPRESSION=OFF -DENABLE_AOCL_SPARSE=OFF -DENABLE_AOCL_CRYPTO=OFF -DENABLE_AOCL_DA=OFF -DENABLE_AOCL_LIBMEM=OFF -DCMAKE_INSTALL_PREFIX=aocl-install --fresh
+          cmake --build build --config Release --target install --parallel
+          tar cvzf $ARCHIVE -C aocl-install .
+      - name: Release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ${{ env.ARCHIVE }}
+          asset_name: ${{ env.ARCHIVE }}
+          tag: latest
+          overwrite: true
