@@ -2,8 +2,8 @@ name: vtk-linux
 on: workflow_dispatch
 env:
   major: "9"
-  minor: "5"
-  patch: "2"
+  minor: "6"
+  patch: "1"
 jobs:
   vtk-amd64:
     strategy:
