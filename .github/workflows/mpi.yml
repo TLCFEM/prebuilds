@@ -7,7 +7,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-22.04, ubuntu-22.04-arm, ubuntu-24.04, ubuntu-24.04-arm]
-        version: ["4.3.2"]
+        version: ["5.0.0"]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Compile
@@ -31,7 +31,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-22.04, ubuntu-22.04-arm, ubuntu-24.04, ubuntu-24.04-arm]
-        version: ["5.0.9"]
+        version: ["5.0.10"]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Compile
