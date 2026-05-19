@@ -1,8 +1,8 @@
 name: hdf5
 on: workflow_dispatch
 env:
-  version: 2.0.0
-  download_url: https://support.hdfgroup.org/releases/hdf5/v2_0/v2_0_0/downloads/hdf5-2.0.0.tar.gz
+  version: 2.1.1
+  download_url: https://support.hdfgroup.org/releases/hdf5/2.1.1/downloads/hdf5-2.1.1.tar.gz
 jobs:
   hdf5-linux:
     strategy:
