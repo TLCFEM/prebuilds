@@ -19,7 +19,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Clone
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           repository: Frederic98/appimage-builder
       - name: Python
