@@ -1,25 +1,4 @@
-name: tbb-win
-on: workflow_dispatch
 jobs:
-  tbb-win-vs:
-    runs-on: windows-2025
-    steps:
-      - name: Compile
-        run: |
-          git clone --depth 1 --branch v2023.1.0 https://github.com/uxlfoundation/oneTBB.git
-          mkdir build && cd build
-          cmake -DCMAKE_BUILD_TYPE=Release -DTBB_TEST=OFF -DCMAKE_INSTALL_PREFIX=D:/a/prebuilds/prebuilds/tbb-win-vs ../oneTBB
-          cmake --build . --target install --config Release --parallel 4
-          cd ../tbb-win-vs
-          7z a ../tbb-win-vs.7z ./*
-      - name: Release
-        uses: svenstaro/upload-release-action@v2
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: tbb-win-vs.7z
-          asset_name: tbb-win-vs.7z
-          tag: latest
-          overwrite: true
   tbb-win-gcc:
     runs-on: windows-2025
     steps:
@@ -29,7 +8,7 @@ jobs:
         run: |
           C:/msys64/usr/bin/wget.exe -q https://github.com/brechtsanders/winlibs_mingw/releases/download/15.3.0posix-14.0.0-ucrt-r1/winlibs-x86_64-posix-seh-gcc-15.3.0-mingw-w64ucrt-14.0.0-r1.7z
           7z x winlibs-x86_64-posix-seh-gcc-15.3.0-mingw-w64ucrt-14.0.0-r1.7z
-          git clone --depth 1 --branch v2023.1.0 https://github.com/uxlfoundation/oneTBB.git
+          git clone --depth 1 --branch ${{ matrix.version }} https://github.com/uxlfoundation/oneTBB.git
           mkdir build && cd build
           cmake -G "MinGW Makefiles" `
           -DCMAKE_CXX_FLAGS="-D_WIN32_WINNT=0x0A00 -DNTDDI_VERSION=0x0A000002" `
@@ -42,15 +21,45 @@ jobs:
           ../oneTBB
           cmake --build . --target install --config Release --parallel 4
           cd ../tbb-win-gcc
-          7z a ../tbb-win-gcc.7z ./*
-      # - name: Debug
-      #   if: failure()
-      #   uses: mxschmitt/action-tmate@v3
+          7z a ../tbb-${{ matrix.version }}-win-gcc.7z ./*
       - name: Release
         uses: svenstaro/upload-release-action@v2
         with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: tbb-win-gcc.7z
-          asset_name: tbb-win-gcc.7z
-          tag: latest
+          asset_name: tbb-${{ matrix.version }}-win-gcc.7z
+          file: tbb-${{ matrix.version }}-win-gcc.7z
           overwrite: true
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          tag: latest
+    strategy:
+      fail-fast: false
+      matrix:
+        version:
+          - v2023.1.0
+          - v2023.0.0
+  tbb-win-vs:
+    runs-on: windows-2025
+    steps:
+      - name: Compile
+        run: |
+          git clone --depth 1 --branch ${{ matrix.version }} https://github.com/uxlfoundation/oneTBB.git
+          mkdir build && cd build
+          cmake -DCMAKE_BUILD_TYPE=Release -DTBB_TEST=OFF -DCMAKE_INSTALL_PREFIX=D:/a/prebuilds/prebuilds/tbb-win-vs ../oneTBB
+          cmake --build . --target install --config Release --parallel 4
+          cd ../tbb-win-vs
+          7z a ../tbb-${{ matrix.version }}-win-vs.7z ./*
+      - name: Release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          asset_name: tbb-${{ matrix.version }}-win-vs.7z
+          file: tbb-${{ matrix.version }}-win-vs.7z
+          overwrite: true
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          tag: latest
+    strategy:
+      fail-fast: false
+      matrix:
+        version:
+          - v2023.1.0
+          - v2023.0.0
+name: tbb-win
+"on": workflow_dispatch
