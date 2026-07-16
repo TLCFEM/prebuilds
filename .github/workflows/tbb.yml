@@ -5,6 +5,7 @@ env:
 jobs:
   tbb:
     strategy:
+      fail-fast: false
       matrix:
         os:
           [
