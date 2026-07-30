@@ -35,7 +35,7 @@ jobs:
         uses: actions/checkout@v7
       - name: Compile
         run: |
-          export CC=gcc-13 && export CXX=g++-13 && export FC=gfortran-13
+          export CC=gcc-15 && export CXX=g++-15 && export FC=gfortran-15
           git clone --branch ${{ env.version }} --depth 1 https://github.com/HDFGroup/hdf5.git
           mkdir packing && mkdir build && cd build
           cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=../packing ../hdf5
