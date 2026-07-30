@@ -2,7 +2,7 @@
 
 This repository contains a few prebuilt libraries.
 
-- HDF5 version 2.1.1
+- HDF5 version 2.2.0
 - TBB version 2023.1.0
 - VTK version 9.6.2
 - OpenBLAS version 0.3.34
