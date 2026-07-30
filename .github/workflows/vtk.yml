@@ -1,15 +1,10 @@
-name: vtk
-on: workflow_dispatch
 env:
-  major: "9"
-  minor: "6"
-  patch: "2"
-  version: "9.6.2"
+  major: '9'
+  minor: '6'
+  patch: '2'
+  version: 9.6.2
 jobs:
   linux:
-    strategy:
-      matrix:
-        os: [ubuntu-22.04, ubuntu-22.04-arm, ubuntu-24.04, ubuntu-24.04-arm]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Compile
@@ -25,15 +20,19 @@ jobs:
       - name: Release
         uses: svenstaro/upload-release-action@v2
         with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: VTK-${{ env.version }}-${{ matrix.os }}.tar.gz
           asset_name: VTK-${{ env.version }}-${{ matrix.os }}.tar.gz
-          tag: latest
+          file: VTK-${{ env.version }}-${{ matrix.os }}.tar.gz
           overwrite: true
-  macos:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          tag: latest
     strategy:
       matrix:
-        os: [macos-15-large, macos-26-large, macos-15-xlarge, macos-26-xlarge]
+        os:
+          - ubuntu-22.04
+          - ubuntu-22.04-arm
+          - ubuntu-24.04
+          - ubuntu-24.04-arm
+  macos:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Compile
@@ -50,31 +49,18 @@ jobs:
       - name: Release
         uses: svenstaro/upload-release-action@v2
         with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: VTK-${{ env.version }}-${{ matrix.os }}.tar.gz
           asset_name: VTK-${{ env.version }}-${{ matrix.os }}.tar.gz
-          tag: latest
+          file: VTK-${{ env.version }}-${{ matrix.os }}.tar.gz
           overwrite: true
-  win-msvc:
-    runs-on: windows-2025
-    steps:
-      - name: Compile
-        run: |
-          C:/msys64/usr/bin/wget.exe -q https://www.vtk.org/files/release/${{ env.major }}.${{ env.minor }}/VTK-${{ env.version }}.tar.gz
-          tar xf VTK-${{ env.version }}.tar.gz && del VTK-${{ env.version }}.tar.gz
-          mkdir VTK-build && mkdir VTK-out && cd VTK-build
-          cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=D:/a/prebuilds/prebuilds/VTK-out ../VTK-${{ env.version }}
-          cmake --build . --target install --config Release --parallel 4
-          cd ../VTK-out
-          7z a ../VTK-${{ env.version }}-win.7z ./*
-      - name: Release
-        uses: svenstaro/upload-release-action@v2
-        with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: VTK-${{ env.version }}-win.7z
-          asset_name: VTK-${{ env.version }}-win.7z
           tag: latest
-          overwrite: true
+    strategy:
+      matrix:
+        os:
+          - macos-15-large
+          - macos-26-large
+          - macos-15-xlarge
+          - macos-26-xlarge
   win-gcc:
     runs-on: windows-2025
     steps:
@@ -100,8 +86,30 @@ jobs:
       - name: Release
         uses: svenstaro/upload-release-action@v2
         with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: VTK-${{ env.version }}-win-gcc.7z
           asset_name: VTK-${{ env.version }}-win-gcc.7z
-          tag: latest
+          file: VTK-${{ env.version }}-win-gcc.7z
           overwrite: true
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          tag: latest
+  win-msvc:
+    runs-on: windows-2025
+    steps:
+      - name: Compile
+        run: |
+          C:/msys64/usr/bin/wget.exe -q https://www.vtk.org/files/release/${{ env.major }}.${{ env.minor }}/VTK-${{ env.version }}.tar.gz
+          tar xf VTK-${{ env.version }}.tar.gz && del VTK-${{ env.version }}.tar.gz
+          mkdir VTK-build && mkdir VTK-out && cd VTK-build
+          cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=D:/a/prebuilds/prebuilds/VTK-out ../VTK-${{ env.version }}
+          cmake --build . --target install --config Release --parallel 4
+          cd ../VTK-out
+          7z a ../VTK-${{ env.version }}-win.7z ./*
+      - name: Release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          asset_name: VTK-${{ env.version }}-win.7z
+          file: VTK-${{ env.version }}-win.7z
+          overwrite: true
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          tag: latest
+name: vtk
+'on': workflow_dispatch
