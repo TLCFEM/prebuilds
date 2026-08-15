@@ -1,8 +1,8 @@
 env:
   major: '9'
-  minor: '6'
-  patch: '2'
-  version: 9.6.2
+  minor: '7'
+  patch: '0'
+  version: 9.7.0
 jobs:
   linux:
     runs-on: ${{ matrix.os }}
