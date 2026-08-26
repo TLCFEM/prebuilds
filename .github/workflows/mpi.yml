@@ -1,13 +1,7 @@
-name: mpi
-on: workflow_dispatch
 env:
-  ARCHIVE: ""
+  ARCHIVE: ''
 jobs:
   mpich:
-    strategy:
-      matrix:
-        os: [ubuntu-22.04, ubuntu-22.04-arm, ubuntu-24.04, ubuntu-24.04-arm]
-        version: ["5.0.0"]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Compile
@@ -22,16 +16,21 @@ jobs:
       - name: Release
         uses: svenstaro/upload-release-action@v2
         with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ${{ env.ARCHIVE }}
           asset_name: ${{ env.ARCHIVE }}
-          tag: latest
+          file: ${{ env.ARCHIVE }}
           overwrite: true
-  openmpi:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          tag: latest
     strategy:
       matrix:
-        os: [ubuntu-22.04, ubuntu-22.04-arm, ubuntu-24.04, ubuntu-24.04-arm]
-        version: ["5.0.10"]
+        os:
+          - ubuntu-22.04
+          - ubuntu-22.04-arm
+          - ubuntu-24.04
+          - ubuntu-24.04-arm
+        version:
+          - 5.0.1
+  openmpi:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Compile
@@ -46,8 +45,19 @@ jobs:
       - name: Release
         uses: svenstaro/upload-release-action@v2
         with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ${{ env.ARCHIVE }}
           asset_name: ${{ env.ARCHIVE }}
-          tag: latest
+          file: ${{ env.ARCHIVE }}
           overwrite: true
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          tag: latest
+    strategy:
+      matrix:
+        os:
+          - ubuntu-22.04
+          - ubuntu-22.04-arm
+          - ubuntu-24.04
+          - ubuntu-24.04-arm
+        version:
+          - 5.0.10
+name: mpi
+'on': workflow_dispatch
