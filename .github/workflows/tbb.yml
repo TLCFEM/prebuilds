@@ -1,5 +1,5 @@
 env:
-  ARCHIVE: ""
+  ARCHIVE: ''
 jobs:
   tbb:
     runs-on: ${{ matrix.os }}
@@ -17,8 +17,14 @@ jobs:
               export CC=$(brew --prefix llvm@15)/bin/clang
               export CXX=$(brew --prefix llvm@15)/bin/clang++
             fi
+          elif [[ "${{ matrix.hwloc }}" == "ON" ]]; then
+            sudo apt-get install libhwloc-dev
           fi
-          export ARCHIVE=tbb-${{ matrix.version}}-${{ matrix.os }}.tar.gz
+          if [[ "${{ matrix.hwloc }}" == "ON" ]]; then
+            export ARCHIVE=tbb-${{ matrix.version}}-${{ matrix.os }}-hwloc.tar.gz
+          else
+            export ARCHIVE=tbb-${{ matrix.version}}-${{ matrix.os }}.tar.gz
+          fi
           echo "ARCHIVE=$ARCHIVE" >> "$GITHUB_ENV"
           git clone --depth 1 --branch ${{ matrix.version}} https://github.com/uxlfoundation/oneTBB.git
           mkdir tbb-install && mkdir build && cd build
@@ -36,6 +42,18 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        exclude:
+          - hwloc: 'ON'
+            os: macos-15-large
+          - hwloc: 'ON'
+            os: macos-15-xlarge
+          - hwloc: 'ON'
+            os: macos-26-large
+          - hwloc: 'ON'
+            os: macos-26-xlarge
+        hwloc:
+          - 'ON'
+          - 'OFF'
         os:
           - ubuntu-22.04
           - ubuntu-22.04-arm
@@ -49,4 +67,4 @@ jobs:
           - v2023.1.0
           - v2023.0.0
 name: tbb
-"on": workflow_dispatch
+'on': workflow_dispatch
