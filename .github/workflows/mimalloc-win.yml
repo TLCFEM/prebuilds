@@ -9,7 +9,7 @@ jobs:
           7z x winlibs-x86_64-posix-seh-gcc-15.3.0-mingw-w64ucrt-14.0.0-r1.7z
       - name: Compile
         run: |
-          git clone --depth 1 --branch v3.4.3 https://github.com/microsoft/mimalloc.git
+          git clone --depth 1 --branch v3.5.3 https://github.com/microsoft/mimalloc.git
           mkdir mimalloc-install && mkdir build && cd build
           if [ ${{ matrix.archive }} == 'mimalloc-win-gcc.7z' ]; then
             export CC=D:/a/prebuilds/prebuilds/mingw64/bin/gcc.exe && \
