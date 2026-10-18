@@ -1,18 +1,14 @@
-name: openblas-win
-on: workflow_dispatch
 jobs:
   openblas-win:
-    strategy:
-      matrix:
-        version: [ 0.3.34 ]
-        indexing: [ 32 ]
     runs-on: windows-2025
     steps:
       - name: CMD
         uses: TheMrMilchmann/setup-msvc-dev@v4
         with:
           arch: x64
-      - name: Compile
+      - env:
+          NUM_THREADS: ${{ inputs.num_threads == 'default' && '12' || inputs.num_threads }}
+        name: Compile
         run: |
           C:/msys64/usr/bin/wget.exe -q https://github.com/brechtsanders/winlibs_mingw/releases/download/15.3.0posix-14.0.0-ucrt-r1/winlibs-x86_64-posix-seh-gcc-15.3.0-mingw-w64ucrt-14.0.0-r1.7z
           7z x winlibs-x86_64-posix-seh-gcc-15.3.0-mingw-w64ucrt-14.0.0-r1.7z
@@ -24,7 +20,7 @@ jobs:
           C:/msys64/usr/bin/sed.exe -i 's/# BINARY=64/BINARY=64/g' Makefile.rule
           C:/msys64/usr/bin/sed.exe -i 's/# USE_THREAD = 0/USE_THREAD = 1/g' Makefile.rule
           C:/msys64/usr/bin/sed.exe -i 's/# USE_OPENMP = 1/USE_OPENMP = 1/g' Makefile.rule
-          C:/msys64/usr/bin/sed.exe -i 's/# NUM_THREADS = 24/NUM_THREADS = 64/g' Makefile.rule
+          C:/msys64/usr/bin/sed.exe -i "s/# NUM_THREADS = 24/NUM_THREADS = $env:NUM_THREADS/g" Makefile.rule
           C:/msys64/usr/bin/sed.exe -i 's/# NO_CBLAS = 1/NO_CBLAS = 1/g' Makefile.rule
           C:/msys64/usr/bin/sed.exe -i 's/# NO_LAPACKE = 1/NO_LAPACKE = 1/g' Makefile.rule
           C:/msys64/usr/bin/sed.exe -i 's/# GEMM_MULTITHREAD_THRESHOLD = 4/GEMM_MULTITHREAD_THRESHOLD = 64/g' Makefile.rule
@@ -34,11 +30,33 @@ jobs:
           make
           cd exports && lib.exe /def:libopenblas.def /out:libopenblas.lib /machine:x64 && cd ..
           7z a ../OpenBLAS-${{ matrix.version }}-win-${{ matrix.indexing }}.7z libopenblas.* exports/*.*
-      - name: Release
+      - if: ${{ inputs.num_threads != 'default' }}
+        name: Upload
+        uses: actions/upload-artifact@v7
+        with:
+          name: OpenBLAS-${{ matrix.version }}-win-${{ matrix.indexing }}.7z
+          path: OpenBLAS-${{ matrix.version }}-win-${{ matrix.indexing }}.7z
+      - if: ${{ inputs.num_threads == 'default' }}
+        name: Release
         uses: svenstaro/upload-release-action@v2
         with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: OpenBLAS-${{ matrix.version }}-win-${{ matrix.indexing }}.7z
           asset_name: OpenBLAS-${{ matrix.version }}-win-${{ matrix.indexing }}.7z
-          tag: latest
+          file: OpenBLAS-${{ matrix.version }}-win-${{ matrix.indexing }}.7z
           overwrite: true
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          tag: latest
+    strategy:
+      matrix:
+        indexing:
+          - 32
+        version:
+          - 0.3.34
+name: openblas-win
+'on':
+  workflow_dispatch:
+    inputs:
+      num_threads:
+        default: default
+        description: Number of threads ("default" builds with 12 and releases, anything else uploads artifacts)
+        required: false
+        type: string
