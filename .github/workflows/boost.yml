@@ -1,0 +1,38 @@
+env:
+  version: 1.92.0
+  version_underscore: "1_92_0"
+jobs:
+  boost-linux:
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Clone
+        uses: actions/checkout@v7
+      - name: Compile
+        run: |
+          wget -q https://archives.boost.io/release/${{ env.version }}/source/boost_${{ env.version_underscore }}.tar.gz
+          tar xzf boost_${{ env.version_underscore }}.tar.gz
+          mkdir packing && mkdir build && cd boost_${{ env.version_underscore }}
+          ./bootstrap.sh --prefix=../packing
+          ./b2 --prefix=../packing --build-type=complete --layout=versioned install
+          cd ../packing && tar cvzf ../boost-${{ env.version }}-${{ matrix.os }}.tar.gz ./*
+      - name: Release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          asset_name: boost-${{ env.version }}-${{ matrix.os }}.tar.gz
+          file: boost-${{ env.version }}-${{ matrix.os }}.tar.gz
+          overwrite: true
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          tag: latest
+    strategy:
+      matrix:
+        os:
+          - ubuntu-22.04
+          - ubuntu-22.04-arm
+          - ubuntu-24.04
+          - ubuntu-24.04-arm
+          - macos-15-large
+          - macos-26-large
+          - macos-15-xlarge
+          - macos-26-xlarge
+name: boost
+'on': workflow_dispatch
