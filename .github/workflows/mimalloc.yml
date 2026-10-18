@@ -33,5 +33,7 @@ jobs:
           - ubuntu-22.04
           - ubuntu-24.04-arm
           - ubuntu-24.04
+          - ubuntu-26.04-arm
+          - ubuntu-26.04
 name: mimalloc
 'on': workflow_dispatch
