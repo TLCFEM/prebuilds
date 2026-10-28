@@ -67,6 +67,6 @@ jobs:
           - macos-26-xlarge
         version:
           - v2023.1.0
-          - v2023.0.0
+          - v2023.2.0
 name: tbb
 'on': workflow_dispatch

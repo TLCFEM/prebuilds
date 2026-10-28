@@ -35,7 +35,7 @@ jobs:
       matrix:
         version:
           - v2023.1.0
-          - v2023.0.0
+          - v2023.2.0
   tbb-win-vs:
     runs-on: windows-2025
     steps:
@@ -60,6 +60,6 @@ jobs:
       matrix:
         version:
           - v2023.1.0
-          - v2023.0.0
+          - v2023.2.0
 name: tbb-win
 "on": workflow_dispatch
